@@ -1,11 +1,16 @@
-import { Text, View, ScrollView } from "react-native";
-import "../global.css";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, View } from "react-native";
 
 export default function Index() {
   return (
-        <View className={"m-2 flex justify-center items-center bg-red-600 w-full h-full"}>
-          <Text>This is our App</Text>
-          </View>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+     
+    >
+      <Text>Edit app/index.tsx to edit this screen.</Text>
+    </View>
   );
 }
