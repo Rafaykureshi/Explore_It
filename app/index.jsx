@@ -5,7 +5,7 @@ export default function Index() {
   return (
     <View
       className={
-        "m-2 flex justify-center items-center bg-red-600 w-full h-full"
+        " flex justify-center items-center bg-[#f49b33] w-full h-full"
       }
     >
       <Text>This is our App Explore it</Text>
