@@ -10,8 +10,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import logo from "../../assets/images/dinetimelogo.png";
-import emptyImg from "../../assets/images/Frame.png";
+// import logo from "../../assets/images/dinetimelogo.png";
+// import emptyImg from "../../assets/images/Frame.png";
 import validationSchema from "../../utils/signupSchema";
 
 const Signin = () => {
