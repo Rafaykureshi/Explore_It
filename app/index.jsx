@@ -8,8 +8,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import logo from "../assets/images/dinetimelogo.png";
-// import emptyImg from "../assets/images/Frame.png";
+import logo from "../assets/images/dinetimelogo.png";
+import emptyImg from "../assets/images/Frame.png";
 
 // const logo = require("../assets/images/dinetimelogo.png")
 
@@ -19,7 +19,7 @@ export default function Index() {
     <SafeAreaView className={"bg-[#2b2b2b]"}>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className={"m-2 flex justify-center items-center"}>
-          {/* <Image source={logo} style={{ width: 300, height: 300 }} /> */}
+          <Image source={logo} style={{ width: 300, height: 300 }} />
           <View className={"w-3/4"}>
             <TouchableOpacity
               onPress={() => router.push("/signup")}
@@ -70,11 +70,11 @@ export default function Index() {
         </View>
 
         <View className={"flex-1"}>
-          {/* <Image
+          <Image
             source={emptyImg}
             className={"w-full h-full"}
             resizeMode="contain"
-          /> */}
+          />
         </View>
 
         <StatusBar barStyle={"light-content"} backgroundColor={"#2b2b2b"} />

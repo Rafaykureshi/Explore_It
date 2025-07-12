@@ -10,9 +10,9 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import logo from "../../assets/images/dinetimelogo.png";
-// import emptyImg from "../../assets/images/Frame.png";
-import validationSchema from "../../utils/signupSchema";
+import logo from "../../assets/images/dinetimelogo.png";
+import emptyImg from "../../assets/images/Frame.png";
+import validationSchema from "../../utils/authSchema";
 
 const Signup = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const Signup = () => {
     <SafeAreaView className={"bg-[#2b2b2b]"}>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className={"m-2 flex justify-center items-center"}>
-          {/* <Image source={logo} style={{ width: 250, height: 150 }} /> */}
+          <Image source={logo} style={{ width: 250, height: 150 }} />
           <Text className={"text-lg text-center text-white font-bold mb-10"}>
             Let's get you started
           </Text>
@@ -86,9 +86,9 @@ const Signup = () => {
                 </View>
               )}
             </Formik>
-            <View>
+            <View className="flex justify-center items-center">
               <TouchableOpacity
-                className={"flex flex-row justify-center my-5 p-2 items-center"}
+                className={"flex flex-row justify-center mt-5 p-2 items-center"}
                 onPress={() => router.push("/signin")}
               >
                 <Text className={"text-white font-semibold"}>
@@ -102,15 +102,38 @@ const Signup = () => {
                   Sign In
                 </Text>
               </TouchableOpacity>
+              <Text
+                className={"text-lg font-semibold text-center mb-4 text-white"}
+              >
+                <View className={"border-b-2 border-[#f49b33] p-2 mb-1 w-24"} />{" "}
+                or{" "}
+                <View className={"border-b-2 border-[#f49b33] p-2 mb-1 w-24"} />
+              </Text>
+              <TouchableOpacity
+                className={"flex flex-row justify-center mb-5 p-2 items-center"}
+                onPress={() => router.push("/home")}
+              >
+                <Text className={"text-white font-semibold"}>
+                  Be a
+                </Text>
+                <Text
+                  className={
+                    "text-base underline font-semibold text-center text-[#f49b33]"
+                  }
+                >
+                  {" "}
+                  Guest User
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
         <View className={"flex-1"}>
-          {/* <Image
+          <Image
             source={emptyImg}
             className={"w-full h-full"}
             resizeMode="contain"
-          /> */}
+          />
         </View>
 
         <StatusBar barStyle={"light-content"} backgroundColor={"#2b2b2b"} />
