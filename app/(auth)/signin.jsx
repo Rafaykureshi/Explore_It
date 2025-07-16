@@ -147,7 +147,7 @@ const Signin = () => {
                 onPress={() => router.push("/signup")}
               >
                 <Text className={"text-[#FAFAFA] font-semibold"}>
-                  New User{" "}
+                  Already a user?{" "}
                 </Text>
                 <Text
                   className={
