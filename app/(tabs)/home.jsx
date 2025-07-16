@@ -17,7 +17,7 @@ const home = () => {
         source={{ uri: item.image }}
         className="h-28 mt-2 mb-1 rounded-lg "
       /> */}
-      <Text className="text-white text-lg font-bold mb-2">{item.name}</Text>
+      <Text className="text-[#FAFAFA] text-lg font-bold mb-2">{item.name}</Text>
       <Text className="text-white text-base mb-2">{item.address}</Text>
       <Text className="text-white text-base mb-2">
         Open: {item.opening} Close: {item.closing}
@@ -39,7 +39,7 @@ const home = () => {
             <Text
               className={`text-base h-10 pt-[${
                 Platform.OS == "ios" ? 8 : 6.5
-              }] align-middle text-white`}
+              }] align-middle text-[#FAFAFA]`}
             >
               Welcome to{" "}
             </Text>
@@ -49,7 +49,7 @@ const home = () => {
       </View>
       <ScrollView>
         <View className="p-4 bg-[#0D1B2A] flex-row items-center">
-          <Text className="text-3xl text-white mr-2 font-semibold">
+          <Text className="text-3xl text-[#FAFAFA] mr-2 font-semibold">
             Events here
           </Text>
         </View>

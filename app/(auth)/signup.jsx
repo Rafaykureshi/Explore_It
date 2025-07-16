@@ -45,7 +45,7 @@ const Signup = () => {
                 <View className={"w-full"}>
                   <TextInput
                     className={
-                      "h-12 border border-white text-white rounded px-2 mt-2 mb-4"
+                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2 mt-2 mb-4"
                     }
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
@@ -62,7 +62,7 @@ const Signup = () => {
 
                   <TextInput
                     className={
-                      "h-12 border border-white text-white rounded px-2"
+                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
                     }
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
@@ -95,7 +95,7 @@ const Signup = () => {
                 className={"flex flex-row justify-center mt-5 p-2 items-center"}
                 onPress={() => router.push("/signin")}
               >
-                <Text className={"text-white font-semibold"}>
+                <Text className={"text-[#FAFAFA] font-semibold"}>
                   Already a User?{" "}
                 </Text>
                 <Text
@@ -107,7 +107,9 @@ const Signup = () => {
                 </Text>
               </TouchableOpacity>
               <Text
-                className={"text-lg font-semibold text-center mb-4 text-white"}
+                className={
+                  "text-lg font-semibold text-center mb-4 text-[#FAFAFA]"
+                }
               >
                 <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />{" "}
                 or{" "}
@@ -117,7 +119,7 @@ const Signup = () => {
                 className={"flex flex-row justify-center mb-5 p-2 items-center"}
                 onPress={() => router.push("/home")}
               >
-                <Text className={"text-white font-semibold"}>Be a</Text>
+                <Text className={"text-[#FAFAFA] font-semibold"}>Be a</Text>
                 <Text
                   className={
                     "text-base underline font-semibold text-center text-[#ffa200]"
