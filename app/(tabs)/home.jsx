@@ -8,9 +8,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../../assets/images/logo.png";
-// import banner from "../../assets/images/homeBanner.png";
-// import uploadData from "../../config/bulkupload";
-// import { restaurants } from "../../store/restaurants";
 
 const home = () => {
   const renderItem = ({ item }) => (
