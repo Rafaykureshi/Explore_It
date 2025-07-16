@@ -10,16 +10,20 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import logo from "../../assets/images/logo.png";
 import validationSchema from "../../utils/authSchema";
 
 const Signin = () => {
   const router = useRouter();
   const handleSignin = () => {};
   return (
-    <SafeAreaView className={"bg-[#2b2b2b]"}>
+    <SafeAreaView className={"bg-[#0D1B2A]"}>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className={"m-2 flex justify-center items-center"}>
-          <Image source={logo} style={{ width: 250, height: 150 }} />
+          <Image
+            source={logo}
+            style={{ width: 250, height: 150, marginTop: "10px" }}
+          />
           <Text className={"text-lg text-center text-white font-bold mb-10"}>
             Let's get you started
           </Text>
@@ -39,7 +43,38 @@ const Signin = () => {
                 touched,
               }) => (
                 <View className={"w-full"}>
-                  <Text className={"text-[#f49b33] mt-4 mb-2"}>Email</Text>
+                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>First Name</Text>
+                  <TextInput
+                    className={
+                      "h-10 border border-white text-white rounded px-2"
+                    }
+                    onChangeText={handleChange("fname")}
+                    onBlur={handleBlur("fname")}
+                    value={values.fname}
+                    keyboardType="name-phone-pad"
+                  />
+                  {touched.fname && errors.fname && (
+                    <Text className={"text-red-500 text-xs mb-2"}>
+                      {errors.fname}
+                    </Text>
+                  )}
+                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Last Name</Text>
+                  <TextInput
+                    className={
+                      "h-10 border border-white text-white rounded px-2"
+                    }
+                    onChangeText={handleChange("lname")}
+                    onBlur={handleBlur("lname")}
+                    value={values.lname}
+                    keyboardType="name-phone-pad"
+                  />
+                  {touched.lname && errors.lname && (
+                    <Text className={"text-red-500 text-xs mb-2"}>
+                      {errors.lname}
+                    </Text>
+                  )}
+
+                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Email</Text>
                   <TextInput
                     className={
                       "h-10 border border-white text-white rounded px-2"
@@ -55,7 +90,7 @@ const Signin = () => {
                     </Text>
                   )}
 
-                  <Text className={"text-[#f49b33] mt-4 mb-2"}>Password</Text>
+                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Password</Text>
                   <TextInput
                     className={
                       "h-10 border border-white text-white rounded px-2"
@@ -70,11 +105,28 @@ const Signin = () => {
                       {errors.password}
                     </Text>
                   )}
+                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>
+                    Confirm Password
+                  </Text>
+                  <TextInput
+                    className={
+                      "h-10 border border-white text-white rounded px-2"
+                    }
+                    onChangeText={handleChange("cpassword")}
+                    onBlur={handleBlur("cpassword")}
+                    secureTextEntry
+                    value={values.cpassword}
+                  />
+                  {touched.cpassword && errors.cpassword && (
+                    <Text className={"text-red-500 text-xs mb-2"}>
+                      {errors.cpassword}
+                    </Text>
+                  )}
 
                   <TouchableOpacity
                     onPress={handleSubmit}
                     className={
-                      "p-2 my-2 mt-10 bg-[#f49b33] text-black rounded-lg"
+                      "p-2 my-2 mt-10 bg-[#2979FF] text-black rounded-lg"
                     }
                   >
                     <Text className={"text-lg font-semibold text-center"}>
@@ -92,7 +144,7 @@ const Signin = () => {
                 <Text className={"text-white font-semibold"}>New User </Text>
                 <Text
                   className={
-                    "text-base underline font-semibold text-center text-[#f49b33]"
+                    "text-base underline font-semibold text-center text-[#FF6D00]"
                   }
                 >
                   Sign Up
@@ -101,9 +153,9 @@ const Signin = () => {
               <Text
                 className={"text-lg font-semibold text-center mb-4 text-white"}
               >
-                <View className={"border-b-2 border-[#f49b33] p-2 mb-1 w-24"} />{" "}
+                <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />{" "}
                 or{" "}
-                <View className={"border-b-2 border-[#f49b33] p-2 mb-1 w-24"} />
+                <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />
               </Text>
               <TouchableOpacity
                 className={"flex flex-row justify-center mb-5 p-2 items-center"}
@@ -112,7 +164,7 @@ const Signin = () => {
                 <Text className={"text-white font-semibold "}>Be a</Text>
                 <Text
                   className={
-                    "text-base underline font-semibold text-center text-[#f49b33]"
+                    "text-base underline font-semibold text-center text-[#FF6D00]"
                   }
                 >
                   {" "}
@@ -123,11 +175,11 @@ const Signin = () => {
           </View>
         </View>
         <View className={"flex-1"}>
-          <Image
+          {/* <Image
             source={emptyImg}
             className={"w-full h-full"}
             resizeMode="contain"
-          />
+          /> */}
         </View>
 
         <StatusBar barStyle={"light-content"} backgroundColor={"#2b2b2b"} />

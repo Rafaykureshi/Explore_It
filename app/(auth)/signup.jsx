@@ -10,13 +10,14 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import logo from "../../assets/images/logo.png";
 import validationSchema from "../../utils/authSchema";
 
 const Signup = () => {
   const router = useRouter();
   const handleSignup = () => {};
   return (
-    <SafeAreaView className={"bg-[#2b2b2b]"}>
+    <SafeAreaView className={"bg-[#0D1B2A]"}>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className={"m-2 flex justify-center items-center"}>
           <Image source={logo} style={{ width: 250, height: 150 }} />
@@ -39,7 +40,7 @@ const Signup = () => {
                 touched,
               }) => (
                 <View className={"w-full"}>
-                  <Text className={"text-[#f49b33] mt-4 mb-2"}>Email</Text>
+                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Email</Text>
                   <TextInput
                     className={
                       "h-10 border border-white text-white rounded px-2"
@@ -55,7 +56,7 @@ const Signup = () => {
                     </Text>
                   )}
 
-                  <Text className={"text-[#f49b33] mt-4 mb-2"}>Password</Text>
+                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Password</Text>
                   <TextInput
                     className={
                       "h-10 border border-white text-white rounded px-2"
@@ -74,7 +75,7 @@ const Signup = () => {
                   <TouchableOpacity
                     onPress={handleSubmit}
                     className={
-                      "p-2 my-2 mt-10 bg-[#f49b33] text-black rounded-lg"
+                      "p-2 my-2 mt-10 bg-[#2979FF] text-black rounded-lg"
                     }
                   >
                     <Text className={"text-lg font-semibold text-center"}>
@@ -94,7 +95,7 @@ const Signup = () => {
                 </Text>
                 <Text
                   className={
-                    "text-base underline font-semibold text-center text-[#f49b33]"
+                    "text-base underline font-semibold text-center text-[#FF6D00]"
                   }
                 >
                   Sign In
@@ -103,9 +104,9 @@ const Signup = () => {
               <Text
                 className={"text-lg font-semibold text-center mb-4 text-white"}
               >
-                <View className={"border-b-2 border-[#f49b33] p-2 mb-1 w-24"} />{" "}
+                <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />{" "}
                 or{" "}
-                <View className={"border-b-2 border-[#f49b33] p-2 mb-1 w-24"} />
+                <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />
               </Text>
               <TouchableOpacity
                 className={"flex flex-row justify-center mb-5 p-2 items-center"}
@@ -114,7 +115,7 @@ const Signup = () => {
                 <Text className={"text-white font-semibold"}>Be a</Text>
                 <Text
                   className={
-                    "text-base underline font-semibold text-center text-[#f49b33]"
+                    "text-base underline font-semibold text-center text-[#FF6D00]"
                   }
                 >
                   {" "}
@@ -125,14 +126,14 @@ const Signup = () => {
           </View>
         </View>
         <View className={"flex-1"}>
-          <Image
+          {/* <Image
             source={emptyImg}
             className={"w-full h-full"}
             resizeMode="contain"
-          />
+          /> */}
         </View>
 
-        <StatusBar barStyle={"light-content"} backgroundColor={"#2b2b2b"} />
+        <StatusBar barStyle={"light-content"} backgroundColor={"#0D1B2A"} />
       </ScrollView>
     </SafeAreaView>
   );
