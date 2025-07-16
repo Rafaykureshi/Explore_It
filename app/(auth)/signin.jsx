@@ -10,7 +10,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import emptyImg from "../../assets/images/banner.png";
 import logo from "../../assets/images/logo.png";
 import validationSchema from "../../utils/authSchema";
 
@@ -25,7 +24,9 @@ const Signin = () => {
             source={logo}
             style={{ width: 250, height: 150, marginTop: "10px" }}
           />
-          <Text className={"text-lg text-center text-white font-bold mb-10"}>
+          <Text
+            className={"text-lg text-center text-[#FFa200] font-bold mb-10"}
+          >
             Let's get you started
           </Text>
 
@@ -52,7 +53,7 @@ const Signin = () => {
                     onBlur={handleBlur("fname")}
                     value={values.fname}
                     placeholder="First Name"
-                    placeholderTextColor={"#FF6D00"}
+                    placeholderTextColor={"#FFa200"}
                     keyboardType="name-phone-pad"
                   />
                   {touched.fname && errors.fname && (
@@ -68,7 +69,7 @@ const Signin = () => {
                     onBlur={handleBlur("lname")}
                     value={values.lname}
                     placeholder="Last Name"
-                    placeholderTextColor={"#FF6D00"}
+                    placeholderTextColor={"#FFa200"}
                     keyboardType="name-phone-pad"
                   />
                   {touched.lname && errors.lname && (
@@ -86,7 +87,7 @@ const Signin = () => {
                     value={values.email}
                     keyboardType="email-address"
                     placeholder="Email"
-                    placeholderTextColor={"#FF6D00"}
+                    placeholderTextColor={"#FFa200"}
                   />
                   {touched.email && errors.email && (
                     <Text className={"text-red-500 text-xs mb-2"}>
@@ -102,7 +103,7 @@ const Signin = () => {
                     onBlur={handleBlur("password")}
                     secureTextEntry
                     placeholder="Password"
-                    placeholderTextColor={"#FF6D00"}
+                    placeholderTextColor={"#FFa200"}
                     value={values.password}
                   />
                   {touched.password && errors.password && (
@@ -118,7 +119,7 @@ const Signin = () => {
                     onBlur={handleBlur("cpassword")}
                     secureTextEntry
                     value={values.cpassword}
-                    placeholderTextColor={"#FF6D00"}
+                    placeholderTextColor={"#FFa200"}
                     placeholder="Confirm Password"
                   />
                   {touched.cpassword && errors.cpassword && (
@@ -148,7 +149,7 @@ const Signin = () => {
                 <Text className={"text-white font-semibold"}>New User </Text>
                 <Text
                   className={
-                    "text-base underline font-semibold text-center text-[#FF6D00]"
+                    "text-base underline font-semibold text-center text-[#FFa200]"
                   }
                 >
                   Sign Up
@@ -168,7 +169,7 @@ const Signin = () => {
                 <Text className={"text-white font-semibold "}>Be a</Text>
                 <Text
                   className={
-                    "text-base underline font-semibold text-center text-[#FF6D00]"
+                    "text-base underline font-semibold text-center text-[#ffa200]"
                   }
                 >
                   {" "}
@@ -179,11 +180,11 @@ const Signin = () => {
           </View>
         </View>
         <View className={"flex-1 flex"}>
-          <Image
+          {/* <Image
             source={emptyImg}
             className={"w-full h-full"}
             resizeMode="contain"
-          />
+          /> */}
         </View>
 
         <StatusBar barStyle={"light-content"} backgroundColor={"#2b2b2b"} />

@@ -63,7 +63,7 @@ export default function Index() {
               </Text>
               <Text
                 className={
-                  "text-base underline font-semibold text-center text-[#FF6D00]"
+                  "text-base underline font-semibold text-center text-[#FFa200]"
                 }
               >
                 Sign In

@@ -23,7 +23,7 @@ const Signup = () => {
         <View className={"m-2 flex justify-center items-center"}>
           <Image source={logo} style={{ width: 250, height: 150 }} />
           <Text
-            className={"text-lg text-center text-[#FF6D00] font-bold mb-10"}
+            className={"text-lg text-center text-[#ffa200] font-bold mb-10"}
           >
             Welcome Back
           </Text>
@@ -51,7 +51,7 @@ const Signup = () => {
                     onBlur={handleBlur("email")}
                     value={values.email}
                     placeholder="Email"
-                    placeholderTextColor={"#FF6D00"}
+                    placeholderTextColor={"#ffa200"}
                     keyboardType="email-address"
                   />
                   {touched.email && errors.email && (
@@ -67,7 +67,7 @@ const Signup = () => {
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
                     secureTextEntry
-                    placeholderTextColor={"#FF6D00"}
+                    placeholderTextColor={"#ffa200"}
                     placeholder="Password"
                     value={values.password}
                   />
@@ -100,7 +100,7 @@ const Signup = () => {
                 </Text>
                 <Text
                   className={
-                    "text-base underline font-semibold text-center text-[#FF6D00]"
+                    "text-base underline font-semibold text-center text-[#ffa200]"
                   }
                 >
                   Sign In
@@ -120,7 +120,7 @@ const Signup = () => {
                 <Text className={"text-white font-semibold"}>Be a</Text>
                 <Text
                   className={
-                    "text-base underline font-semibold text-center text-[#FF6D00]"
+                    "text-base underline font-semibold text-center text-[#ffa200]"
                   }
                 >
                   {" "}
