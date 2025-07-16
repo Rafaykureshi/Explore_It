@@ -10,8 +10,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import logo from "../../assets/images/dinetimelogo.png";
-import emptyImg from "../../assets/images/Frame.png";
 import validationSchema from "../../utils/authSchema";
 
 const Signin = () => {
@@ -86,14 +84,12 @@ const Signin = () => {
                 </View>
               )}
             </Formik>
-             <View className="flex justify-center items-center">
+            <View className="flex justify-center items-center">
               <TouchableOpacity
                 className={"flex flex-row justify-center mt-5 p-2 items-center"}
                 onPress={() => router.push("/signup")}
               >
-                <Text className={"text-white font-semibold"}>
-                  New User{" "}
-                </Text>
+                <Text className={"text-white font-semibold"}>New User </Text>
                 <Text
                   className={
                     "text-base underline font-semibold text-center text-[#f49b33]"
@@ -113,16 +109,14 @@ const Signin = () => {
                 className={"flex flex-row justify-center mb-5 p-2 items-center"}
                 onPress={() => router.push("/home")}
               >
-                <Text className={"text-white font-semibold "}>
-                  Be a 
-                </Text>
+                <Text className={"text-white font-semibold "}>Be a</Text>
                 <Text
                   className={
                     "text-base underline font-semibold text-center text-[#f49b33]"
                   }
                 >
                   {" "}
-                    Guest User
+                  Guest User
                 </Text>
               </TouchableOpacity>
             </View>
