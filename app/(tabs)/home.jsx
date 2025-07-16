@@ -18,8 +18,8 @@ const home = () => {
         className="h-28 mt-2 mb-1 rounded-lg "
       /> */}
       <Text className="text-[#FAFAFA] text-lg font-bold mb-2">{item.name}</Text>
-      <Text className="text-white text-base mb-2">{item.address}</Text>
-      <Text className="text-white text-base mb-2">
+      <Text className="text-[#fafafa] text-base mb-2">{item.address}</Text>
+      <Text className="text-[#fafafa] text-base mb-2">
         Open: {item.opening} Close: {item.closing}
       </Text>
     </TouchableOpacity>
