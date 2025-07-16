@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import emptyImg from "../../assets/images/banner.png";
 import logo from "../../assets/images/logo.png";
 import validationSchema from "../../utils/authSchema";
 
@@ -18,7 +19,7 @@ const Signin = () => {
   const handleSignin = () => {};
   return (
     <SafeAreaView className={"bg-[#0D1B2A]"}>
-      <ScrollView contentContainerStyle={{ height: "100%" }}>
+      <ScrollView contentContainerStyle={{ height: "100%" }} scrollEnabled>
         <View className={"m-2 flex justify-center items-center"}>
           <Image
             source={logo}
@@ -30,7 +31,7 @@ const Signin = () => {
 
           <View className={"w-5/6"}>
             <Formik
-              initialValues={{ email: "", password: "" }}
+              initialValues={{ email: "", password: "", cpassword: "" }}
               validationSchema={validationSchema}
               onSubmit={handleSignin}
             >
@@ -43,14 +44,15 @@ const Signin = () => {
                 touched,
               }) => (
                 <View className={"w-full"}>
-                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>First Name</Text>
                   <TextInput
                     className={
-                      "h-10 border border-white text-white rounded px-2"
+                      "h-12 border border-white text-white rounded px-2 mt-2 mb-4 "
                     }
                     onChangeText={handleChange("fname")}
                     onBlur={handleBlur("fname")}
                     value={values.fname}
+                    placeholder="First Name"
+                    placeholderTextColor={"#FF6D00"}
                     keyboardType="name-phone-pad"
                   />
                   {touched.fname && errors.fname && (
@@ -58,14 +60,15 @@ const Signin = () => {
                       {errors.fname}
                     </Text>
                   )}
-                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Last Name</Text>
                   <TextInput
                     className={
-                      "h-10 border border-white text-white rounded px-2"
+                      "h-12 border border-white text-white rounded px-2 mt-2 mb-4"
                     }
                     onChangeText={handleChange("lname")}
                     onBlur={handleBlur("lname")}
                     value={values.lname}
+                    placeholder="Last Name"
+                    placeholderTextColor={"#FF6D00"}
                     keyboardType="name-phone-pad"
                   />
                   {touched.lname && errors.lname && (
@@ -74,15 +77,16 @@ const Signin = () => {
                     </Text>
                   )}
 
-                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Email</Text>
                   <TextInput
                     className={
-                      "h-10 border border-white text-white rounded px-2"
+                      "h-12 border border-white text-white rounded px-2 mt-2 mb-4"
                     }
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
                     value={values.email}
                     keyboardType="email-address"
+                    placeholder="Email"
+                    placeholderTextColor={"#FF6D00"}
                   />
                   {touched.email && errors.email && (
                     <Text className={"text-red-500 text-xs mb-2"}>
@@ -90,14 +94,15 @@ const Signin = () => {
                     </Text>
                   )}
 
-                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Password</Text>
                   <TextInput
                     className={
-                      "h-10 border border-white text-white rounded px-2"
+                      "h-12 border border-white text-white rounded px-2 mt-2 mb-4"
                     }
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
                     secureTextEntry
+                    placeholder="Password"
+                    placeholderTextColor={"#FF6D00"}
                     value={values.password}
                   />
                   {touched.password && errors.password && (
@@ -105,17 +110,16 @@ const Signin = () => {
                       {errors.password}
                     </Text>
                   )}
-                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>
-                    Confirm Password
-                  </Text>
                   <TextInput
                     className={
-                      "h-10 border border-white text-white rounded px-2"
+                      "h-12 border border-white text-white rounded px-2 mt-2 mb-4"
                     }
                     onChangeText={handleChange("cpassword")}
                     onBlur={handleBlur("cpassword")}
                     secureTextEntry
                     value={values.cpassword}
+                    placeholderTextColor={"#FF6D00"}
+                    placeholder="Confirm Password"
                   />
                   {touched.cpassword && errors.cpassword && (
                     <Text className={"text-red-500 text-xs mb-2"}>
@@ -174,12 +178,12 @@ const Signin = () => {
             </View>
           </View>
         </View>
-        <View className={"flex-1"}>
-          {/* <Image
+        <View className={"flex-1 flex"}>
+          <Image
             source={emptyImg}
             className={"w-full h-full"}
             resizeMode="contain"
-          /> */}
+          />
         </View>
 
         <StatusBar barStyle={"light-content"} backgroundColor={"#2b2b2b"} />

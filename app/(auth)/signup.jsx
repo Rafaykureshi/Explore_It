@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import emptyImg from "../../assets/images/banner.png";
 import logo from "../../assets/images/logo.png";
 import validationSchema from "../../utils/authSchema";
 
@@ -18,11 +19,13 @@ const Signup = () => {
   const handleSignup = () => {};
   return (
     <SafeAreaView className={"bg-[#0D1B2A]"}>
-      <ScrollView contentContainerStyle={{ height: "100%" }}>
+      <ScrollView contentContainerStyle={{ height: "100%" }} scrollEnabled>
         <View className={"m-2 flex justify-center items-center"}>
           <Image source={logo} style={{ width: 250, height: 150 }} />
-          <Text className={"text-lg text-center text-white font-bold mb-10"}>
-            Let's get you started
+          <Text
+            className={"text-lg text-center text-[#FF6D00] font-bold mb-10"}
+          >
+            Welcome Back
           </Text>
 
           <View className={"w-5/6"}>
@@ -40,14 +43,15 @@ const Signup = () => {
                 touched,
               }) => (
                 <View className={"w-full"}>
-                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Email</Text>
                   <TextInput
                     className={
-                      "h-10 border border-white text-white rounded px-2"
+                      "h-12 border border-white text-white rounded px-2 mt-2 mb-4"
                     }
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
                     value={values.email}
+                    placeholder="Email"
+                    placeholderTextColor={"#FF6D00"}
                     keyboardType="email-address"
                   />
                   {touched.email && errors.email && (
@@ -56,14 +60,15 @@ const Signup = () => {
                     </Text>
                   )}
 
-                  <Text className={"text-[#FF6D00] mt-4 mb-2"}>Password</Text>
                   <TextInput
                     className={
-                      "h-10 border border-white text-white rounded px-2"
+                      "h-12 border border-white text-white rounded px-2"
                     }
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
                     secureTextEntry
+                    placeholderTextColor={"#FF6D00"}
+                    placeholder="Password"
                     value={values.password}
                   />
                   {touched.password && errors.password && (
@@ -126,11 +131,11 @@ const Signup = () => {
           </View>
         </View>
         <View className={"flex-1"}>
-          {/* <Image
+          <Image
             source={emptyImg}
             className={"w-full h-full"}
             resizeMode="contain"
-          /> */}
+          />
         </View>
 
         <StatusBar barStyle={"light-content"} backgroundColor={"#0D1B2A"} />

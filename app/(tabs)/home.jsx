@@ -31,14 +31,14 @@ const home = () => {
   return (
     <SafeAreaView
       style={[
-        { backgroundColor: "#2b2b2b" },
+        { backgroundColor: "#0D1B2A" },
         Platform.OS == "android" && { paddingBottom: 55 },
         Platform.OS == "ios" && { paddingBottom: 20 },
       ]}
     >
-      <View className="flex items-center">
-        <View className="bg-[#5f5f5f] w-11/12 rounded-lg shadow-lg justify-between items-center flex flex-row p-2">
-          <View className="flex flex-row">
+      <View className="flex items-center justify-center">
+        <View className="bg-[#5f5f5f] w-11/12 rounded-lg shadow-lg justify-center items-center flex flex-row p-2">
+          <View className="flex flex-row items-center justify-center">
             <Text
               className={`text-base h-10 pt-[${
                 Platform.OS == "ios" ? 8 : 6.5
@@ -51,40 +51,11 @@ const home = () => {
         </View>
       </View>
       <ScrollView>
-        <View className="p-4 bg-[#2b2b2b] flex-row items-center">
+        <View className="p-4 bg-[#0D1B2A] flex-row items-center">
           <Text className="text-3xl text-white mr-2 font-semibold">
-            Special Discount %
+            Events here
           </Text>
         </View>
-        {/* {restaurants.length >= 0 ? (
-          <FlatList
-            data={restaurants}
-            renderItem={renderItem}
-            horizontal
-            contentContainerStyle={{ padding: 16 }}
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={true}
-          />
-        ) : (
-          <ActivityIndicator animating color={"#fb9b33"} />
-        )}
-        <View className="p-4 bg-[#2b2b2b] flex-row items-center">
-          <Text className="text-3xl text-[#fb9b33] mr-2 font-semibold">
-            Our Restaurants
-          </Text>
-        </View>
-        {restaurants.length >= 0 ? (
-          <FlatList
-            data={restaurants}
-            renderItem={renderItem}
-            horizontal
-            contentContainerStyle={{ padding: 16 }}
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={true}
-          />
-        ) : (
-          <ActivityIndicator animating color={"#fb9b33"} />
-        )} */}
       </ScrollView>
     </SafeAreaView>
   );
