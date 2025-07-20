@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { getApp, initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -7,15 +8,27 @@ import { getFirestore } from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBksMsVwnw-rBOCMJuCps1vSUeAnhcwc58",
-  authDomain: "explore-it-856d6.firebaseapp.com",
-  projectId: "explore-it-856d6",
-  storageBucket: "explore-it-856d6.firebasestorage.app",
-  messagingSenderId: "680814599046",
-  appId: "1:680814599046:web:1be45a58fbef20d33b6a07",
-  measurementId: "G-DP1F11KXL5"
+  apiKey: "AIzaSyAS6-eaXegOWxWKgIh8gIvvMx_vMev3rqI",
+  authDomain: "eventapp-c3419.firebaseapp.com",
+  projectId: "eventapp-c3419",
+  storageBucket: "eventapp-c3419.firebasestorage.app",
+  messagingSenderId: "434503598756",
+  appId: "1:434503598756:web:475d70351531f7743adc31"
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+let app;
+try {
+  app = initializeApp(firebaseConfig);
+} catch (error) {
+  // If app already exists, get the existing app
+  if (error.code === 'app/duplicate-app') {
+    app = getApp(); // Get the default app
+  } else {
+    throw error;
+  }
+}
+
+export { app };
 export const db = getFirestore(app);
+export const auth = getAuth(app);
