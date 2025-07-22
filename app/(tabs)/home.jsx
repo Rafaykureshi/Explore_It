@@ -73,7 +73,7 @@ const home = () => {
                 </View>
                 <View className="flex-1">
                   <Text className="text-[#FAFAFA] font-semibold text-sm">
-                    {user?.email || "user@example.com"}
+                    {user?.email || "Guest User"}
                   </Text>
                   <Text className="text-[#FAFAFA] opacity-70 text-xs">
                     Signed in
