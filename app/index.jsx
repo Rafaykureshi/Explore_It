@@ -15,6 +15,10 @@ import logo from "../assets/images/logo.png";
 
 export default function Index() {
   const router = useRouter();
+  const handleGuest = async () => {
+    await AsyncStorage.setItem("isGuest", "true");
+    router.push("/home");
+  };
 
   return (
     <SafeAreaView className={"bg-[#0D1B2A]"}>
@@ -34,7 +38,7 @@ export default function Index() {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => router.push("/home")}
+              onPress={handleGuest}
               className={
                 "p-2 my-2 bg-[#0D1B2A] border border-[#2979FF] rounded-lg "
               }

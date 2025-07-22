@@ -27,25 +27,24 @@ const home = () => {
       await signOut(auth);
 
       Toast.show({
-        type: 'success',
-        text1: '👋 Logged Out',
-        text2: 'You have been successfully logged out.',
+        type: "success",
+        text1: "👋 Logged Out",
+        text2: "You have been successfully logged out.",
         visibilityTime: 2000,
-        position: 'top'
+        position: "top",
       });
 
       setTimeout(() => {
         router.replace("/signin");
       }, 1000);
-
     } catch (error) {
       console.error("Logout error:", error);
       Toast.show({
-        type: 'error',
-        text1: '❌ Logout Failed',
-        text2: 'Failed to log out. Please try again.',
+        type: "error",
+        text1: "❌ Logout Failed",
+        text2: "Failed to log out. Please try again.",
         visibilityTime: 3000,
-        position: 'top'
+        position: "top",
       });
     }
   };
@@ -127,7 +126,9 @@ const home = () => {
                 onPress={handleLogout}
               >
                 <Text className="text-2xl mr-3">🚪</Text>
-                <Text className="text-[#ff4444] text-base font-semibold">Logout</Text>
+                <Text className="text-[#ff4444] text-base font-semibold">
+                  Logout
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -163,8 +164,9 @@ const home = () => {
         <View className="bg-[#5f5f5f] w-11/12 rounded-lg shadow-lg justify-center items-center flex flex-row p-2">
           <View className="flex flex-row items-center justify-center flex-1">
             <Text
-              className={`text-base h-10 pt-[${Platform.OS == "ios" ? 8 : 6.5
-                }] align-middle text-[#FAFAFA]`}
+              className={`text-base h-10 pt-[${
+                Platform.OS == "ios" ? 8 : 6.5
+              }] align-middle text-[#FAFAFA]`}
             >
               Welcome to{" "}
             </Text>

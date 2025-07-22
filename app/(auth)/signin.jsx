@@ -62,7 +62,10 @@ const Signin = () => {
       });
     }
   };
-
+  const handleGuest = async () => {
+    await AsyncStorage.setItem("isGuest", "true");
+    router.push("/home");
+  };
   const handleSignin = async (values, { setSubmitting, setFieldError }) => {
     console.log("Attempting signin with:", values.email);
 
@@ -72,6 +75,15 @@ const Signin = () => {
         values.email,
         values.password
       );
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        console.log("User data:", userDoc.data());
+        await AsyncStorage.setItem("userEmail", values.email);
+        await AsyncStorage.setItem("isGuest", "false");
+        router.push("/home");
+      } else {
+        console.log("No such Doc");
+      }
       console.log("Signin successful:", userCredential.user.uid);
 
       // Reset button state immediately
@@ -160,6 +172,7 @@ const Signin = () => {
       setSubmitting(false);
     }
   };
+
   return (
     <SafeAreaView className={"bg-[#0D1B2A]"}>
       <ScrollView contentContainerStyle={{ height: "100%" }} scrollEnabled>
@@ -243,7 +256,9 @@ const Signin = () => {
                     className={"mt-4 p-2"}
                   >
                     <Text
-                      className={"text-[#ffa200] text-center text-sm underline"}
+                      className={
+                        "text-[#ffa200] text-center font-semibold text-sm underline"
+                      }
                     >
                       Forgot Password?
                     </Text>
@@ -278,7 +293,7 @@ const Signin = () => {
               </Text>
               <TouchableOpacity
                 className={"flex flex-row justify-center mb-5 p-2 items-center"}
-                onPress={() => router.replace("/(tabs)/home")}
+                onPress={handleGuest}
               >
                 <Text className={"text-[#FAFAFA] font-semibold "}>Be a</Text>
                 <Text

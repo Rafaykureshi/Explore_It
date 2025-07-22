@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -34,26 +34,27 @@ const Signup = () => {
       console.log("User created successfully:", userCredential.user.uid);
 
       // Skip Firestore for now - just create the auth account
-      console.log("User account created successfully, skipping Firestore for now");
+      console.log(
+        "User account created successfully, skipping Firestore for now"
+      );
 
       // Reset button state immediately
       setSubmitting(false);
-      
+
       // Show modern toast notification
       Toast.show({
-        type: 'success',
-        text1: '🎉 Account Created!',
-        text2: 'Welcome! Your account has been created successfully.',
+        type: "success",
+        text1: "🎉 Account Created!",
+        text2: "Welcome! Your account has been created successfully.",
         visibilityTime: 3000,
-        position: 'top'
+        position: "top",
       });
-      
+
       // Navigate after a short delay to show the toast
       setTimeout(() => {
         console.log("Redirecting to signin...");
         router.replace("/signin");
       }, 1000);
-
     } catch (error) {
       console.error("Signup error:", error);
       console.error("Error code:", error.code);
@@ -64,44 +65,50 @@ const Signup = () => {
         case "auth/email-already-in-use":
           setFieldError("email", "This email is already registered");
           Toast.show({
-            type: 'error',
-            text1: '❌ Email Already Exists',
-            text2: 'This email is already registered. Please use a different email.',
+            type: "error",
+            text1: "❌ Email Already Exists",
+            text2:
+              "This email is already registered. Please use a different email.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
           break;
         case "auth/weak-password":
           setFieldError("password", "Password is too weak");
           Toast.show({
-            type: 'error',
-            text1: '❌ Weak Password',
-            text2: 'Password must be at least 6 characters long.',
+            type: "error",
+            text1: "❌ Weak Password",
+            text2: "Password must be at least 6 characters long.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
           break;
         case "auth/invalid-email":
           setFieldError("email", "Invalid email address");
           Toast.show({
-            type: 'error',
-            text1: '❌ Invalid Email',
-            text2: 'Please enter a valid email address.',
+            type: "error",
+            text1: "❌ Invalid Email",
+            text2: "Please enter a valid email address.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
           break;
         default:
           Toast.show({
-            type: 'error',
-            text1: '❌ Signup Failed',
-            text2: error.message || 'Failed to create account. Please try again.',
+            type: "error",
+            text1: "❌ Signup Failed",
+            text2:
+              error.message || "Failed to create account. Please try again.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
       }
       setSubmitting(false);
     }
+  };
+  const handleGuest = async () => {
+    await AsyncStorage.setItem("isGuest", "true");
+    router.push("/home");
   };
   return (
     <SafeAreaView className={"bg-[#0D1B2A]"}>
@@ -121,7 +128,7 @@ const Signup = () => {
                 lname: "",
                 email: "",
                 password: "",
-                cpassword: ""
+                cpassword: "",
               }}
               validationSchema={signupSchema}
               onSubmit={handleSignup}
@@ -223,8 +230,9 @@ const Signup = () => {
                   <TouchableOpacity
                     onPress={handleSubmit}
                     disabled={isSubmitting}
-                    className={`p-2 my-2 mt-10 ${isSubmitting ? "bg-gray-400" : "bg-[#2979FF]"
-                      } text-black rounded-lg`}
+                    className={`p-2 my-2 mt-10 ${
+                      isSubmitting ? "bg-gray-400" : "bg-[#2979FF]"
+                    } text-black rounded-lg`}
                   >
                     <Text className={"text-lg font-semibold text-center"}>
                       {isSubmitting ? "Creating Account..." : "Sign Up"}
@@ -260,7 +268,7 @@ const Signup = () => {
               </Text>
               <TouchableOpacity
                 className={"flex flex-row justify-center mb-5 p-2 items-center"}
-                onPress={() => router.replace("/(tabs)/home")}
+                onPress={handleGuest}
               >
                 <Text className={"text-[#FAFAFA] font-semibold"}>Be a</Text>
                 <Text
