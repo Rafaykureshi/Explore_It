@@ -1,5 +1,8 @@
 import { useRouter } from "expo-router";
-import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { Formik } from "formik";
 import {
   Image,
@@ -8,7 +11,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -22,11 +25,11 @@ const Signin = () => {
   const handlePasswordReset = async (email) => {
     if (!email) {
       Toast.show({
-        type: 'error',
-        text1: '❌ Email Required',
-        text2: 'Please enter your email address first.',
+        type: "error",
+        text1: "❌ Email Required",
+        text2: "Please enter your email address first.",
         visibilityTime: 3000,
-        position: 'top'
+        position: "top",
       });
       return;
     }
@@ -34,28 +37,28 @@ const Signin = () => {
     try {
       await sendPasswordResetEmail(auth, email);
       Toast.show({
-        type: 'success',
-        text1: '📧 Reset Email Sent!',
-        text2: 'Check your email for password reset instructions.',
+        type: "success",
+        text1: "📧 Reset Email Sent!",
+        text2: "Check your email for password reset instructions.",
         visibilityTime: 4000,
-        position: 'top'
+        position: "top",
       });
     } catch (error) {
       console.error("Password reset error:", error);
-      let errorMessage = 'Failed to send reset email. Please try again.';
-      
-      if (error.code === 'auth/user-not-found') {
-        errorMessage = 'No account found with this email address.';
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'Please enter a valid email address.';
+      let errorMessage = "Failed to send reset email. Please try again.";
+
+      if (error.code === "auth/user-not-found") {
+        errorMessage = "No account found with this email address.";
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = "Please enter a valid email address.";
       }
-      
+
       Toast.show({
-        type: 'error',
-        text1: '❌ Reset Failed',
+        type: "error",
+        text1: "❌ Reset Failed",
         text2: errorMessage,
         visibilityTime: 4000,
-        position: 'top'
+        position: "top",
       });
     }
   };
@@ -64,21 +67,25 @@ const Signin = () => {
     console.log("Attempting signin with:", values.email);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
       console.log("Signin successful:", userCredential.user.uid);
 
       // Reset button state immediately
       setSubmitting(false);
-      
+
       // Show modern toast notification
       Toast.show({
-        type: 'success',
-        text1: '🎉 Welcome Back!',
-        text2: 'You have successfully signed in to your account.',
+        type: "success",
+        text1: "🎉 Welcome Back!",
+        text2: "You have successfully signed in to your account.",
         visibilityTime: 3000,
-        position: 'top'
+        position: "top",
       });
-      
+
       // Navigate after a short delay to show the toast
       setTimeout(() => {
         console.log("Navigating to home...");
@@ -94,59 +101,59 @@ const Signin = () => {
         case "auth/user-not-found":
           setFieldError("email", "No account found with this email");
           Toast.show({
-            type: 'error',
-            text1: '❌ Account Not Found',
-            text2: 'No account found with this email. Please check or sign up.',
+            type: "error",
+            text1: "❌ Account Not Found",
+            text2: "No account found with this email. Please check or sign up.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
           break;
         case "auth/wrong-password":
         case "auth/invalid-credential":
           setFieldError("password", "Incorrect password");
           Toast.show({
-            type: 'error',
-            text1: '❌ Invalid Credentials',
-            text2: 'Incorrect email or password. Please try again.',
+            type: "error",
+            text1: "❌ Invalid Credentials",
+            text2: "Incorrect email or password. Please try again.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
           break;
         case "auth/invalid-email":
           setFieldError("email", "Invalid email address");
           Toast.show({
-            type: 'error',
-            text1: '❌ Invalid Email',
-            text2: 'Please enter a valid email address.',
+            type: "error",
+            text1: "❌ Invalid Email",
+            text2: "Please enter a valid email address.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
           break;
         case "auth/user-disabled":
           Toast.show({
-            type: 'error',
-            text1: '❌ Account Disabled',
-            text2: 'This account has been disabled. Please contact support.',
+            type: "error",
+            text1: "❌ Account Disabled",
+            text2: "This account has been disabled. Please contact support.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
           break;
         case "auth/too-many-requests":
           Toast.show({
-            type: 'error',
-            text1: '❌ Too Many Attempts',
-            text2: 'Too many failed attempts. Please try again later.',
+            type: "error",
+            text1: "❌ Too Many Attempts",
+            text2: "Too many failed attempts. Please try again later.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
           break;
         default:
           Toast.show({
-            type: 'error',
-            text1: '❌ Sign In Failed',
-            text2: error.message || 'Failed to sign in. Please try again.',
+            type: "error",
+            text1: "❌ Sign In Failed",
+            text2: error.message || "Failed to sign in. Please try again.",
             visibilityTime: 4000,
-            position: 'top'
+            position: "top",
           });
       }
     } finally {
@@ -221,8 +228,9 @@ const Signin = () => {
                   <TouchableOpacity
                     onPress={handleSubmit}
                     disabled={isSubmitting}
-                    className={`p-2 my-2 mt-10 ${isSubmitting ? "bg-gray-400" : "bg-[#2979FF]"
-                      } text-black rounded-lg`}
+                    className={`p-2 my-2 mt-10 ${
+                      isSubmitting ? "bg-gray-400" : "bg-[#2979FF]"
+                    } text-black rounded-lg`}
                   >
                     <Text className={"text-lg font-semibold text-center"}>
                       {isSubmitting ? "Signing In..." : "Sign In"}
@@ -234,7 +242,9 @@ const Signin = () => {
                     onPress={() => handlePasswordReset(values.email)}
                     className={"mt-4 p-2"}
                   >
-                    <Text className={"text-[#ffa200] text-center text-sm underline"}>
+                    <Text
+                      className={"text-[#ffa200] text-center text-sm underline"}
+                    >
                       Forgot Password?
                     </Text>
                   </TouchableOpacity>
