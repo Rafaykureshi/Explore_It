@@ -8,17 +8,18 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import emptyImg from "../assets/images/banner.png";
+// import emptyImg from "../assets/images/banner.png";
 import logo from "../assets/images/logo.png";
 
 // const logo = require("../assets/images/dinetimelogo.png")
 
 export default function Index() {
   const router = useRouter();
+
   return (
     <SafeAreaView className={"bg-[#0D1B2A]"}>
       <ScrollView contentContainerStyle={{ height: "100%" }} scrollEnabled>
-        <View className={"m-2 flex justify-center items-center"}>
+        <View className={"m-2 flex justify-center items-center mb-[50px]"}>
           <Image
             source={logo}
             style={{ width: 300, height: 300, marginTop: "10px" }}
@@ -72,14 +73,6 @@ export default function Index() {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
-
-        <View className={"flex-1"}>
-          <Image
-            source={emptyImg}
-            className={"w-full h-full"}
-            resizeMode="contain"
-          />
         </View>
 
         <StatusBar barStyle={"light-content"} backgroundColor={"#0D1B2A"} />
