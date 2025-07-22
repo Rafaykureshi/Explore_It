@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import emptyImg from "../assets/images/banner.png";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import logo from "../assets/images/logo.png";
 
 // const logo = require("../assets/images/dinetimelogo.png")

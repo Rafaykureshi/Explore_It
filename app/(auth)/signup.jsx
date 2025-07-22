@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Formik } from "formik";
@@ -19,6 +20,10 @@ import { signupSchema } from "../../utils/authSchema";
 
 const Signup = () => {
   const router = useRouter();
+  const handleGuest = async () => {
+    await AsyncStorage.setItem("isGuest", "true");
+    router.push("/home");
+  };
 
   const handleSignup = async (values, { setSubmitting, setFieldError }) => {
     console.log("Starting signup process...", values.email);
@@ -106,10 +111,7 @@ const Signup = () => {
       setSubmitting(false);
     }
   };
-  const handleGuest = async () => {
-    await AsyncStorage.setItem("isGuest", "true");
-    router.push("/home");
-  };
+
   return (
     <SafeAreaView className={"bg-[#0D1B2A]"}>
       <ScrollView contentContainerStyle={{ height: "100%" }} scrollEnabled>
