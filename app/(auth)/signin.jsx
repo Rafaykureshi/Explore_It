@@ -1,27 +1,38 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import {
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signInWithEmailAndPassword,
 } from "firebase/auth";
 import { Formik } from "formik";
 import {
-  Image,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Dimensions,
+    Image,
+    Platform,
+    ScrollView,
+    StatusBar,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
+import { Colors } from "../../assets/Colors";
 import logo from "../../assets/images/logo.png";
+import AuthLoadingScreen from "../../components/AuthLoadingScreen";
+import PasswordInput from "../../components/PasswordInput";
 import { auth } from "../../config/firebaseConfig";
 import { signinSchema } from "../../utils/authSchema";
+import { createShadow } from "../../utils/shadowHelper";
+import { useAuthLoading } from "../../utils/useAuthLoading";
+
+const { width, height } = Dimensions.get('window');
 
 const Signin = () => {
   const router = useRouter();
+  const { isLoading, loadingType, startLoading, stopLoading } = useAuthLoading();
 
   const handlePasswordReset = async (email) => {
     if (!email) {
@@ -36,7 +47,9 @@ const Signin = () => {
     }
 
     try {
+      startLoading('login', 'Sending password reset email...');
       await sendPasswordResetEmail(auth, email);
+      stopLoading();
       Toast.show({
         type: "success",
         text1: "📧 Reset Email Sent!",
@@ -45,6 +58,7 @@ const Signin = () => {
         position: "top",
       });
     } catch (error) {
+      stopLoading();
       console.error("Password reset error:", error);
       let errorMessage = "Failed to send reset email. Please try again.";
 
@@ -64,13 +78,32 @@ const Signin = () => {
     }
   };
   const handleGuest = async () => {
-    await AsyncStorage.setItem("isGuest", "true");
-    router.push("/home");
+    try {
+      startLoading('login', 'Setting up guest session...');
+      await AsyncStorage.setItem("isGuest", "true");
+      
+      // Short delay to show the loading animation
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      stopLoading();
+      router.push("/home");
+    } catch (error) {
+      stopLoading();
+      console.error("Guest login error:", error);
+      Toast.show({
+        type: "error",
+        text1: "❌ Error",
+        text2: "Failed to continue as guest. Please try again.",
+        visibilityTime: 3000,
+        position: "top",
+      });
+    }
   };
   const handleSignin = async (values, { setSubmitting, setFieldError }) => {
     console.log("Attempting signin with:", values.email);
-
+    
     try {
+      startLoading('login');
       const userCredential = await signInWithEmailAndPassword(
         auth,
         values.email,
@@ -93,10 +126,12 @@ const Signin = () => {
 
       // Navigate after a short delay to show the toast
       setTimeout(() => {
+        stopLoading();
         console.log("Navigating to home...");
         router.replace("/(tabs)/home");
       }, 1000);
     } catch (error) {
+      stopLoading();
       console.error("Signin error:", error);
       console.error("Error code:", error.code);
       console.error("Error message:", error.message);
@@ -167,20 +202,61 @@ const Signin = () => {
   };
 
   return (
-    <SafeAreaView className={"bg-[#0D1B2A]"}>
-      <ScrollView contentContainerStyle={{ height: "100%" }} scrollEnabled>
-        <View className={"m-2 flex justify-center items-center"}>
-          <Image
-            source={logo}
-            style={{ width: 250, height: 150, marginTop: "10px" }}
-          />
-          <Text
-            className={"text-lg text-center text-[#ffa200] font-bold mb-10"}
-          >
-            Welcome Back
-          </Text>
+    <LinearGradient
+      colors={Colors.gradients.background}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar barStyle="light-content" backgroundColor={Colors.background.primary} />
+        <AuthLoadingScreen 
+          isVisible={isLoading} 
+          type={loadingType} 
+        />
+        <ScrollView 
+          contentContainerStyle={{ 
+            flexGrow: 1,
+            minHeight: height - (Platform.OS === 'ios' ? 100 : 80)
+          }}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 32 }}>
+            {/* Logo Section */}
+            <View style={{ alignItems: 'center', marginBottom: 24 }}>
+              <Image
+                source={logo}
+                style={{ 
+                  width: Math.min(width * 0.6, 240), 
+                  height: Math.min(width * 0.36, 144),
+                  maxWidth: 240,
+                  maxHeight: 144
+                }}
+                resizeMode="contain"
+              />
+              <Text style={{
+                fontSize: 24,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                color: Colors.secondary.main,
+                marginTop: 16,
+              }}>
+                ✨ Welcome Back
+              </Text>
+            </View>
 
-          <View className={"w-5/6"}>
+          {/* Form Section with Card Background */}
+          <View 
+            style={{
+              width: '100%',
+              maxWidth: 400,
+              backgroundColor: Colors.background.secondary,
+              borderRadius: 20,
+              padding: 24,
+              ...createShadow(Colors.primary.main, { width: 0, height: 8 }, 0.15, 16, 12),
+              borderWidth: 1,
+              borderColor: Colors.border.primary,
+            }}
+          >
             <Formik
               initialValues={{ email: "", password: "" }}
               validationSchema={signinSchema}
@@ -195,124 +271,232 @@ const Signin = () => {
                 touched,
                 isSubmitting,
               }) => (
-                <View className={"w-full"}>
+                <View className="w-full">
+                  <Text style={{
+                    color: Colors.secondary.main,
+                    fontSize: 14,
+                    fontWeight: '600',
+                    marginBottom: 8,
+                  }}>
+                    📧 Email
+                  </Text>
                   <TextInput
-                    className={
-                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2 mt-2 mb-2"
-                    }
+                    style={{
+                      height: 48,
+                      backgroundColor: Colors.background.tertiary,
+                      borderColor: Colors.border.primary,
+                      borderWidth: 1,
+                      borderRadius: 12,
+                      paddingHorizontal: 16,
+                      color: Colors.text.primary,
+                      fontSize: 16,
+                      marginBottom: 4,
+                    }}
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
                     value={values.email}
                     keyboardType="email-address"
-                    placeholder="Email"
-                    placeholderTextColor={"#ffa200"}
+                    placeholder="Enter your email address"
+                    placeholderTextColor={Colors.text.tertiary}
                     autoCapitalize="none"
+                    autoCorrect={false}
                   />
                   {touched.email && errors.email && (
-                    <Text className={"text-red-500 text-xs mb-2"}>
+                    <Text style={{
+                      color: Colors.status.error,
+                      fontSize: 12,
+                      marginBottom: 12,
+                      marginLeft: 4,
+                    }}>
                       {errors.email}
                     </Text>
                   )}
 
-                  <TextInput
-                    className={
-                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2 mt-2 mb-2"
-                    }
+                  <Text style={{
+                    color: Colors.secondary.main,
+                    fontSize: 14,
+                    fontWeight: '600',
+                    marginBottom: 8,
+                    marginTop: 16,
+                  }}>
+                    🔒 Password
+                  </Text>
+                  <PasswordInput
+                    value={values.password}
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
-                    secureTextEntry
-                    placeholder="Password"
-                    placeholderTextColor={"#ffa200"}
-                    value={values.password}
+                    placeholder="Enter your password"
+                    placeholderTextColor={Colors.text.tertiary}
+                    style={{
+                      height: 48,
+                      backgroundColor: Colors.background.tertiary,
+                      borderColor: Colors.border.primary,
+                      borderWidth: 1,
+                      borderRadius: 12,
+                      paddingHorizontal: 16,
+                      color: Colors.text.primary,
+                      fontSize: 16,
+                      marginBottom: 4,
+                    }}
                   />
                   {touched.password && errors.password && (
-                    <Text className={"text-red-500 text-xs mb-2"}>
+                    <Text style={{
+                      color: Colors.status.error,
+                      fontSize: 12,
+                      marginBottom: 12,
+                      marginLeft: 4,
+                    }}>
                       {errors.password}
                     </Text>
                   )}
 
+                  {/* Sign In Button with Logo-Matched Gradient */}
                   <TouchableOpacity
                     onPress={handleSubmit}
                     disabled={isSubmitting}
-                    className={`p-2 my-2 mt-10 ${
-                      isSubmitting ? "bg-gray-400" : "bg-[#2979FF]"
-                    } text-black rounded-lg`}
+                    activeOpacity={0.8}
+                    style={{
+                      marginVertical: 24,
+                      borderRadius: 12,
+                      ...createShadow(Colors.secondary.main, { width: 0, height: 4 }, 0.3, 8, 8),
+                    }}
                   >
-                    <Text className={"text-lg font-semibold text-center"}>
-                      {isSubmitting ? "Signing In..." : "Sign In"}
-                    </Text>
+                    <LinearGradient
+                      colors={isSubmitting ? [Colors.interactive.disabled, Colors.interactive.disabled] : ['#F59E0B', '#EF4444']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={{
+                        paddingVertical: 16,
+                        paddingHorizontal: 24,
+                        borderRadius: 12,
+                      }}
+                    >
+                      <Text style={{
+                        fontSize: 18,
+                        fontWeight: '600',
+                        textAlign: 'center',
+                        color: Colors.text.primary,
+                      }}>
+                        {isSubmitting ? "🔄 Signing In..." : "🚀 Sign In"}
+                      </Text>
+                    </LinearGradient>
                   </TouchableOpacity>
 
                   {/* Forgot Password Button */}
                   <TouchableOpacity
                     onPress={() => handlePasswordReset(values.email)}
-                    className={"mt-4 p-2"}
+                    activeOpacity={0.8}
+                    style={{ paddingVertical: 8 }}
                   >
-                    <Text
-                      className={
-                        "text-[#ffa200] text-center font-semibold text-sm underline"
-                      }
-                    >
-                      Forgot Password?
+                    <Text style={{
+                      color: Colors.secondary.main,
+                      textAlign: 'center',
+                      fontWeight: '600',
+                      fontSize: 14,
+                      textDecoration: 'underline',
+                    }}>
+                      🔑 Forgot Password?
                     </Text>
                   </TouchableOpacity>
                 </View>
               )}
             </Formik>
-            <View className="flex justify-center items-center">
+
+            {/* Navigation Links */}
+            <View style={{ alignItems: 'center', marginTop: 24 }}>
               <TouchableOpacity
-                className={"flex flex-row justify-center mt-5 p-2 items-center"}
                 onPress={() => router.push("/signup")}
+                activeOpacity={0.8}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingVertical: 8,
+                  paddingHorizontal: 16,
+                }}
               >
-                <Text className={"text-[#FAFAFA] font-semibold"}>
-                  New user?{" "}
+                <Text style={{
+                  color: Colors.text.secondary,
+                  fontWeight: '600',
+                  marginRight: 4,
+                }}>
+                  New user?
                 </Text>
-                <Text
-                  className={
-                    "text-base underline font-semibold text-center text-[#ffa200]"
-                  }
-                >
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: Colors.secondary.main,
+                  textDecoration: 'underline',
+                }}>
                   Sign Up
                 </Text>
               </TouchableOpacity>
-              <Text
-                className={
-                  "text-lg font-semibold text-center mb-4 text-[#FAFAFA]"
-                }
-              >
-                <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />{" "}
-                or{" "}
-                <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />
-              </Text>
+
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 16,
+              }}>
+                <LinearGradient
+                  colors={[Colors.primary.main, 'transparent']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={{ flex: 1, height: 1, marginHorizontal: 16 }}
+                />
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: Colors.text.secondary,
+                  paddingHorizontal: 8,
+                }}>
+                  or
+                </Text>
+                <LinearGradient
+                  colors={['transparent', Colors.primary.main]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={{ flex: 1, height: 1, marginHorizontal: 16 }}
+                />
+              </View>
+
               <TouchableOpacity
-                className={"flex flex-row justify-center mb-5 p-2 items-center"}
                 onPress={handleGuest}
+                activeOpacity={0.8}
+                style={{
+                  alignItems: 'center',
+                  paddingVertical: 12,
+                  paddingHorizontal: 16,
+                  borderRadius: 8,
+                  backgroundColor: 'rgba(245, 158, 11, 0.05)',
+                  borderWidth: 1,
+                  borderColor: 'rgba(245, 158, 11, 0.2)',
+                }}
               >
-                <Text className={"text-[#FAFAFA] font-semibold "}>Be a</Text>
-                <Text
-                  className={
-                    "text-base underline font-semibold text-center text-[#ffa200]"
-                  }
-                >
-                  {" "}
-                  Guest User
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: Colors.secondary.main,
+                  textDecoration: 'underline',
+                  marginBottom: 2,
+                }}>
+                  👤 Try as Guest
+                </Text>
+                <Text style={{
+                  fontSize: 11,
+                  fontWeight: '500',
+                  color: Colors.secondary.main,
+                  opacity: 0.7,
+                  textAlign: 'center',
+                }}>
+                  No sign-up required • Limited access but full preview
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
-        <View className={"flex-1 flex"}>
-          {/* <Image
-            source={emptyImg}
-            className={"w-full h-full"}
-            resizeMode="contain"
-          /> */}
-        </View>
-
-        <StatusBar barStyle={"light-content"} backgroundColor={"#2b2b2b"} />
       </ScrollView>
       <Toast />
     </SafeAreaView>
+    </LinearGradient>
   );
 };
 
