@@ -16,10 +16,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
-<<<<<<< HEAD
-=======
 import { Colors } from "../../assets/Colors";
->>>>>>> fef717e6cef9d3b4e2ae0fa52f0716bf5b4296b1
 import logo from "../../assets/images/logo.png";
 import AuthLoadingScreen from "../../components/AuthLoadingScreen";
 import PasswordInput from "../../components/PasswordInput";
@@ -129,162 +126,6 @@ const Signup = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <SafeAreaView className={"bg-[#0D1B2A]"}>
-      <ScrollView
-        contentContainerStyle={{ height: "100%" }}
-        scrollEnabled={true}
-      >
-        <View className={"m-1 flex justify-center items-center"}>
-          <Image source={logo} style={{ width: 200, height: 150 }} />
-          <Text className={"text-lg text-center text-[#ffa200] font-bold mb-2"}>
-            Welcome Back
-          </Text>
-
-          <View className={"w-5/6"}>
-            <Formik
-              initialValues={{
-                fname: "",
-                lname: "",
-                email: "",
-                password: "",
-                cpassword: "",
-              }}
-              validationSchema={signupSchema}
-              onSubmit={handleSignup}
-            >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-                touched,
-                isSubmitting,
-              }) => (
-                <View className={"w-full"}>
-                  <TextInput
-                    className={
-                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
-                    }
-                    onChangeText={handleChange("fname")}
-                    onBlur={handleBlur("fname")}
-                    value={values.fname}
-                    placeholder="First Name"
-                    placeholderTextColor={"#ffa200"}
-                  />
-                  {touched.fname && errors.fname && (
-                    <Text className={"text-red-500 text-xs"}>
-                      {errors.fname}
-                    </Text>
-                  )}
-
-                  <TextInput
-                    className={
-                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
-                    }
-                    onChangeText={handleChange("lname")}
-                    onBlur={handleBlur("lname")}
-                    value={values.lname}
-                    placeholder="Last Name"
-                    placeholderTextColor={"#ffa200"}
-                  />
-                  {touched.lname && errors.lname && (
-                    <Text className={"text-red-500 text-xs"}>
-                      {errors.lname}
-                    </Text>
-                  )}
-
-                  <TextInput
-                    className={
-                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
-                    }
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                    placeholder="Email"
-                    placeholderTextColor={"#ffa200"}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                  />
-                  {touched.email && errors.email && (
-                    <Text className={"text-red-500 text-xs"}>
-                      {errors.email}
-                    </Text>
-                  )}
-
-                  <TextInput
-                    className={
-                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
-                    }
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    secureTextEntry
-                    placeholderTextColor={"#ffa200"}
-                    placeholder="Password"
-                    value={values.password}
-                  />
-                  {touched.password && errors.password && (
-                    <Text className={"text-red-500 text-xs"}>
-                      {errors.password}
-                    </Text>
-                  )}
-
-                  <TextInput
-                    className={
-                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
-                    }
-                    onChangeText={handleChange("cpassword")}
-                    onBlur={handleBlur("cpassword")}
-                    secureTextEntry
-                    placeholderTextColor={"#ffa200"}
-                    placeholder="Confirm Password"
-                    value={values.cpassword}
-                  />
-                  {touched.cpassword && errors.cpassword && (
-                    <Text className={"text-red-500 text-xs"}>
-                      {errors.cpassword}
-                    </Text>
-                  )}
-
-                  <TouchableOpacity
-                    onPress={handleSubmit}
-                    disabled={isSubmitting}
-                    className={`p-2 mt-2 ${
-                      isSubmitting ? "bg-gray-400" : "bg-[#2979FF]"
-                    } text-black rounded-lg`}
-                  >
-                    <Text className={"text-lg font-semibold text-center"}>
-                      {isSubmitting ? "Creating Account..." : "Sign Up"}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </Formik>
-            <View className="flex justify-center items-center">
-              <TouchableOpacity
-                className={"flex flex-row justify-center p-2 items-center"}
-                onPress={() => router.push("/signin")}
-              >
-                <Text className={"text-[#FAFAFA] font-semibold"}>
-                  Already have an account?{" "}
-                </Text>
-                <Text
-                  className={
-                    "text-base underline font-semibold text-center text-[#ffa200]"
-                  }
-                >
-                  Sign In
-                </Text>
-              </TouchableOpacity>
-              <Text
-                className={
-                  "text-lg font-semibold text-center mb-1 text-[#FAFAFA]"
-                }
-              >
-                <View className={"border-b-2 border-[#2979FF] p-2 w-24"} /> or{" "}
-                <View className={"border-b-2 border-[#2979FF] p-2 w-24"} />
-=======
     <LinearGradient
       colors={Colors.gradients.background}
       style={{ flex: 1 }}
@@ -324,7 +165,6 @@ const Signup = () => {
                 marginTop: 16,
               }}>
                 🚀 Create Account
->>>>>>> fef717e6cef9d3b4e2ae0fa52f0716bf5b4296b1
               </Text>
             </View>
 
@@ -688,11 +528,7 @@ const Signup = () => {
               </View>
             </View>
           </View>
-<<<<<<< HEAD
-        </View>
-=======
         </ScrollView>
->>>>>>> fef717e6cef9d3b4e2ae0fa52f0716bf5b4296b1
 
         <Toast />
       </SafeAreaView>

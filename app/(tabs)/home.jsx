@@ -3,16 +3,6 @@ import { useRouter } from "expo-router";
 import { signOut } from "firebase/auth";
 import { useState } from "react";
 import {
-<<<<<<< HEAD
-  Dimensions,
-  Image,
-  Modal,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-=======
     Dimensions,
     Image,
     Modal,
@@ -21,7 +11,6 @@ import {
     Text,
     TouchableOpacity,
     View,
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -32,11 +21,7 @@ import { auth } from "../../config/firebaseConfig";
 import { createShadow } from "../../utils/shadowHelper";
 import { useAuthLoading } from "../../utils/useAuthLoading";
 
-<<<<<<< HEAD
-const { width } = Dimensions.get("window");
-=======
 const { width } = Dimensions.get('window');
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
 
 const Home = () => {
   const router = useRouter();
@@ -52,18 +37,6 @@ const Home = () => {
     try {
       await withLoading(async () => {
         console.log("Inside withLoading, signing out...");
-<<<<<<< HEAD
-
-        // Add minimum loading time to ensure the loading screen is visible
-        const [signOutResult] = await Promise.all([
-          signOut(auth),
-          new Promise((resolve) => setTimeout(resolve, 1500)), // Minimum 1.5 seconds
-        ]);
-
-        console.log("Sign out completed");
-        return signOutResult;
-      }, "logout");
-=======
         
         // Add minimum loading time to ensure the loading screen is visible
         const [signOutResult] = await Promise.all([
@@ -74,7 +47,6 @@ const Home = () => {
         console.log("Sign out completed");
         return signOutResult;
       }, 'logout');
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
 
       console.log("isLoading after:", isLoading);
 
@@ -116,17 +88,6 @@ const Home = () => {
         activeOpacity={1}
         onPress={() => setShowProfileMenu(false)}
       >
-<<<<<<< HEAD
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "flex-start",
-            alignItems: "flex-end",
-            paddingTop: 80,
-            paddingRight: 16,
-          }}
-        >
-=======
         <View style={{
           flex: 1,
           justifyContent: 'flex-start',
@@ -134,65 +95,29 @@ const Home = () => {
           paddingTop: 80,
           paddingRight: 16,
         }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
           <LinearGradient
             colors={Colors.gradients.card}
             style={{
               borderRadius: 16,
               minWidth: 200,
-<<<<<<< HEAD
-              ...createShadow(
-                Colors.primary.main,
-                { width: 0, height: 8 },
-                0.25,
-                16,
-                12
-              ),
-=======
               ...createShadow(Colors.primary.main, { width: 0, height: 8 }, 0.25, 16, 12),
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
               borderWidth: 1,
               borderColor: Colors.border.primary,
             }}
           >
             {/* User Info */}
-<<<<<<< HEAD
-            <View
-              style={{
-                padding: 16,
-                borderBottomWidth: 1,
-                borderBottomColor: Colors.border.primary,
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-=======
             <View style={{
               padding: 16,
               borderBottomWidth: 1,
               borderBottomColor: Colors.border.primary,
             }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 <LinearGradient
                   colors={Colors.gradients.secondary}
                   style={{
                     width: 40,
                     height: 40,
                     borderRadius: 20,
-<<<<<<< HEAD
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginRight: 12,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: Colors.text.primary,
-                      fontWeight: "bold",
-                      fontSize: 16,
-                    }}
-                  >
-=======
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginRight: 12,
@@ -203,28 +128,10 @@ const Home = () => {
                     fontWeight: 'bold',
                     fontSize: 16,
                   }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                     {user?.email?.charAt(0).toUpperCase() || "U"}
                   </Text>
                 </LinearGradient>
                 <View style={{ flex: 1 }}>
-<<<<<<< HEAD
-                  <Text
-                    style={{
-                      color: Colors.text.primary,
-                      fontWeight: "600",
-                      fontSize: 14,
-                    }}
-                  >
-                    {user?.email || "Guest User"}
-                  </Text>
-                  <Text
-                    style={{
-                      color: Colors.text.secondary,
-                      fontSize: 12,
-                    }}
-                  >
-=======
                   <Text style={{
                     color: Colors.text.primary,
                     fontWeight: '600',
@@ -236,7 +143,6 @@ const Home = () => {
                     color: Colors.text.secondary,
                     fontSize: 12,
                   }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                     Signed in
                   </Text>
                 </View>
@@ -249,13 +155,8 @@ const Home = () => {
                 style={{
                   paddingHorizontal: 16,
                   paddingVertical: 12,
-<<<<<<< HEAD
-                  flexDirection: "row",
-                  alignItems: "center",
-=======
                   flexDirection: 'row',
                   alignItems: 'center',
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 }}
                 onPress={() => {
                   setShowProfileMenu(false);
@@ -264,21 +165,11 @@ const Home = () => {
                 activeOpacity={0.8}
               >
                 <Text style={{ fontSize: 20, marginRight: 12 }}>👤</Text>
-<<<<<<< HEAD
-                <Text
-                  style={{
-                    color: Colors.text.primary,
-                    fontSize: 16,
-                    fontWeight: "500",
-                  }}
-                >
-=======
                 <Text style={{
                   color: Colors.text.primary,
                   fontSize: 16,
                   fontWeight: '500',
                 }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                   My Profile
                 </Text>
               </TouchableOpacity>
@@ -287,13 +178,8 @@ const Home = () => {
                 style={{
                   paddingHorizontal: 16,
                   paddingVertical: 12,
-<<<<<<< HEAD
-                  flexDirection: "row",
-                  alignItems: "center",
-=======
                   flexDirection: 'row',
                   alignItems: 'center',
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 }}
                 onPress={() => {
                   setShowProfileMenu(false);
@@ -302,21 +188,11 @@ const Home = () => {
                 activeOpacity={0.8}
               >
                 <Text style={{ fontSize: 20, marginRight: 12 }}>⚙️</Text>
-<<<<<<< HEAD
-                <Text
-                  style={{
-                    color: Colors.text.primary,
-                    fontSize: 16,
-                    fontWeight: "500",
-                  }}
-                >
-=======
                 <Text style={{
                   color: Colors.text.primary,
                   fontSize: 16,
                   fontWeight: '500',
                 }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                   Settings
                 </Text>
               </TouchableOpacity>
@@ -325,13 +201,8 @@ const Home = () => {
                 style={{
                   paddingHorizontal: 16,
                   paddingVertical: 12,
-<<<<<<< HEAD
-                  flexDirection: "row",
-                  alignItems: "center",
-=======
                   flexDirection: 'row',
                   alignItems: 'center',
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 }}
                 onPress={() => {
                   setShowProfileMenu(false);
@@ -340,76 +211,40 @@ const Home = () => {
                 activeOpacity={0.8}
               >
                 <Text style={{ fontSize: 20, marginRight: 12 }}>❓</Text>
-<<<<<<< HEAD
-                <Text
-                  style={{
-                    color: Colors.text.primary,
-                    fontSize: 16,
-                    fontWeight: "500",
-                  }}
-                >
-=======
                 <Text style={{
                   color: Colors.text.primary,
                   fontSize: 16,
                   fontWeight: '500',
                 }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                   Help & Support
                 </Text>
               </TouchableOpacity>
 
               {/* Divider */}
-<<<<<<< HEAD
-              <View
-                style={{
-                  height: 1,
-                  backgroundColor: Colors.border.primary,
-                  marginHorizontal: 16,
-                  marginVertical: 8,
-                }}
-              />
-=======
               <View style={{
                 height: 1,
                 backgroundColor: Colors.border.primary,
                 marginHorizontal: 16,
                 marginVertical: 8,
               }} />
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
 
               {/* Logout */}
               <TouchableOpacity
                 style={{
                   paddingHorizontal: 16,
                   paddingVertical: 12,
-<<<<<<< HEAD
-                  flexDirection: "row",
-                  alignItems: "center",
-=======
                   flexDirection: 'row',
                   alignItems: 'center',
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 }}
                 onPress={handleLogout}
                 activeOpacity={0.8}
               >
                 <Text style={{ fontSize: 20, marginRight: 12 }}>🚪</Text>
-<<<<<<< HEAD
-                <Text
-                  style={{
-                    color: Colors.status.error,
-                    fontSize: 16,
-                    fontWeight: "600",
-                  }}
-                >
-=======
                 <Text style={{
                   color: Colors.status.error,
                   fontSize: 16,
                   fontWeight: '600',
                 }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                   Logout
                 </Text>
               </TouchableOpacity>
@@ -420,10 +255,6 @@ const Home = () => {
     </Modal>
   );
 
-<<<<<<< HEAD
-  return (
-    <LinearGradient colors={Colors.gradients.background} style={{ flex: 1 }}>
-=======
 
 
   return (
@@ -431,7 +262,6 @@ const Home = () => {
       colors={Colors.gradients.background}
       style={{ flex: 1 }}
     >
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
       <SafeAreaView style={{ flex: 1 }}>
         {/* Enhanced Header */}
         <View style={{ paddingHorizontal: 16, paddingVertical: 12 }}>
@@ -449,34 +279,6 @@ const Home = () => {
               borderColor: Colors.border.primary,
             }}
           >
-<<<<<<< HEAD
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: Colors.text.secondary,
-                    fontWeight: "600",
-                    marginRight: 8,
-                  }}
-                >
-                  Welcome to
-                </Text>
-                <Image
-                  source={logo}
-                  style={{
-                    width: Math.min(width * 0.2, 80),
-                    height: Math.min(width * 0.12, 48),
-                  }}
-                  resizeMode="contain"
-=======
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{
@@ -494,7 +296,6 @@ const Home = () => {
                     height: Math.min(width * 0.12, 48)
                   }}
                   resizeMode="contain" 
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 />
               </View>
 
@@ -510,10 +311,7 @@ const Home = () => {
                   shadowOffset: { width: 0, height: 2 },
                   shadowOpacity: 0.3,
                   shadowRadius: 4,
-<<<<<<< HEAD
-=======
 
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 }}
               >
                 <LinearGradient
@@ -522,19 +320,6 @@ const Home = () => {
                     width: 48,
                     height: 48,
                     borderRadius: 24,
-<<<<<<< HEAD
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: Colors.text.primary,
-                      fontWeight: "bold",
-                      fontSize: 18,
-                    }}
-                  >
-=======
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
@@ -544,7 +329,6 @@ const Home = () => {
                     fontWeight: 'bold',
                     fontSize: 18,
                   }}>
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                     {user?.email?.charAt(0).toUpperCase() || "U"}
                   </Text>
                 </LinearGradient>
@@ -554,29 +338,6 @@ const Home = () => {
         </View>
 
         {/* Enhanced Content */}
-<<<<<<< HEAD
-        <ScrollView
-          style={{ flex: 1 }}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: Platform.OS === "ios" ? 20 : 55,
-          }}
-        >
-          <View style={{ padding: 16 }}>
-            <Text
-              style={{
-                fontSize: 24,
-                color: Colors.text.primary,
-                fontWeight: "bold",
-                marginBottom: 16,
-                textAlign: "center",
-              }}
-            >
-              🎉 Events & Activities
-            </Text>
-
-            {/* Enhanced Content Cards */}
-=======
         <ScrollView 
           style={{ flex: 1 }}
           showsVerticalScrollIndicator={false}
@@ -622,49 +383,17 @@ const Home = () => {
               </Text>
             </LinearGradient>
 
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
             <LinearGradient
               colors={Colors.gradients.card}
               style={{
                 borderRadius: 16,
                 padding: 20,
                 marginBottom: 16,
-<<<<<<< HEAD
-                ...createShadow(
-                  Colors.primary.main,
-                  { width: 0, height: 4 },
-                  0.1,
-                  8,
-                  6
-                ),
-=======
                 ...createShadow(Colors.secondary.main, { width: 0, height: 4 }, 0.1, 8, 6),
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 borderWidth: 1,
                 borderColor: Colors.border.primary,
               }}
             >
-<<<<<<< HEAD
-              <Text
-                style={{
-                  color: Colors.text.primary,
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  marginBottom: 8,
-                }}
-              >
-                🎪 No events available
-              </Text>
-              <Text
-                style={{
-                  color: Colors.text.secondary,
-                  fontSize: 14,
-                  lineHeight: 20,
-                }}
-              >
-                Check back later for upcoming events and activities. We&apos;re
-                working on bringing you exciting experiences!
-=======
               <Text style={{
                 color: Colors.text.primary,
                 fontSize: 18,
@@ -679,7 +408,6 @@ const Home = () => {
                 lineHeight: 20,
               }}>
                 Discover interesting places and activities around you. Your next adventure is just around the corner!
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
               </Text>
             </LinearGradient>
 
@@ -689,81 +417,11 @@ const Home = () => {
                 borderRadius: 16,
                 padding: 20,
                 marginBottom: 16,
-<<<<<<< HEAD
-                ...createShadow(
-                  Colors.secondary.main,
-                  { width: 0, height: 4 },
-                  0.1,
-                  8,
-                  6
-                ),
-=======
                 ...createShadow(Colors.status.warning, { width: 0, height: 4 }, 0.1, 8, 6),
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
                 borderWidth: 1,
                 borderColor: Colors.border.primary,
               }}
             >
-<<<<<<< HEAD
-              <Text
-                style={{
-                  color: Colors.text.primary,
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  marginBottom: 8,
-                }}
-              >
-                📍 Explore Nearby
-              </Text>
-              <Text
-                style={{
-                  color: Colors.text.secondary,
-                  fontSize: 14,
-                  lineHeight: 20,
-                }}
-              >
-                Discover interesting places and activities around you. Your next
-                adventure is just around the corner!
-              </Text>
-            </LinearGradient>
-
-            <LinearGradient
-              colors={Colors.gradients.card}
-              style={{
-                borderRadius: 16,
-                padding: 20,
-                marginBottom: 16,
-                ...createShadow(
-                  Colors.status.warning,
-                  { width: 0, height: 4 },
-                  0.1,
-                  8,
-                  6
-                ),
-                borderWidth: 1,
-                borderColor: Colors.border.primary,
-              }}
-            >
-              <Text
-                style={{
-                  color: Colors.text.primary,
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  marginBottom: 8,
-                }}
-              >
-                ⭐ Featured
-              </Text>
-              <Text
-                style={{
-                  color: Colors.text.secondary,
-                  fontSize: 14,
-                  lineHeight: 20,
-                }}
-              >
-                Check out our featured recommendations just for you.
-                Personalized experiences await!
-=======
               <Text style={{
                 color: Colors.text.primary,
                 fontSize: 18,
@@ -778,7 +436,6 @@ const Home = () => {
                 lineHeight: 20,
               }}>
                 Check out our featured recommendations just for you. Personalized experiences await!
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
               </Text>
             </LinearGradient>
           </View>
@@ -788,14 +445,10 @@ const Home = () => {
         <ProfileMenuModal />
 
         {/* Auth Loading Screen */}
-<<<<<<< HEAD
-        <AuthLoadingScreen isVisible={isLoading} type="logout" />
-=======
         <AuthLoadingScreen 
           isVisible={isLoading} 
           type="logout"
         />
->>>>>>> f55101bd3974cfa2e622b543cb1b8431ddf6ab14
 
         <Toast />
       </SafeAreaView>
