@@ -1,30 +1,54 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { signOut } from "firebase/auth";
 import { useState } from "react";
 import {
-  Image,
-  Modal,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
+    Dimensions,
+    Image,
+    Modal,
+    Platform,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
+import { Colors } from "../../assets/Colors";
 import logo from "../../assets/images/logo.png";
+import AuthLoadingScreen from "../../components/AuthLoadingScreen";
 import { auth } from "../../config/firebaseConfig";
+import { createShadow } from "../../utils/shadowHelper";
+import { useAuthLoading } from "../../utils/useAuthLoading";
 
-const home = () => {
+const { width } = Dimensions.get('window');
+
+const Home = () => {
   const router = useRouter();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const { isLoading, withLoading } = useAuthLoading();
   const user = auth.currentUser;
 
   const handleLogout = async () => {
     setShowProfileMenu(false);
+    console.log("Starting logout process...");
+    console.log("isLoading before:", isLoading);
 
     try {
-      await signOut(auth);
+      await withLoading(async () => {
+        console.log("Inside withLoading, signing out...");
+        
+        // Add minimum loading time to ensure the loading screen is visible
+        const [signOutResult] = await Promise.all([
+          signOut(auth),
+          new Promise(resolve => setTimeout(resolve, 1500)) // Minimum 1.5 seconds
+        ]);
+        
+        console.log("Sign out completed");
+        return signOutResult;
+      }, 'logout');
+
+      console.log("isLoading after:", isLoading);
 
       Toast.show({
         type: "success",
@@ -57,25 +81,68 @@ const home = () => {
       onRequestClose={() => setShowProfileMenu(false)}
     >
       <TouchableOpacity
-        className="flex-1 bg-black/50"
+        style={{
+          flex: 1,
+          backgroundColor: Colors.background.overlay,
+        }}
         activeOpacity={1}
         onPress={() => setShowProfileMenu(false)}
       >
-        <View className="flex-1 justify-start items-end pt-20 pr-4">
-          <View className="bg-[#5f5f5f] rounded-lg shadow-lg min-w-48">
+        <View style={{
+          flex: 1,
+          justifyContent: 'flex-start',
+          alignItems: 'flex-end',
+          paddingTop: 80,
+          paddingRight: 16,
+        }}>
+          <LinearGradient
+            colors={Colors.gradients.card}
+            style={{
+              borderRadius: 16,
+              minWidth: 200,
+              ...createShadow(Colors.primary.main, { width: 0, height: 8 }, 0.25, 16, 12),
+              borderWidth: 1,
+              borderColor: Colors.border.primary,
+            }}
+          >
             {/* User Info */}
-            <View className="p-4 border-b border-[#404040]">
-              <View className="flex-row items-center">
-                <View className="w-10 h-10 bg-[#ffa200] rounded-full flex items-center justify-center mr-3">
-                  <Text className="text-white font-bold text-lg">
+            <View style={{
+              padding: 16,
+              borderBottomWidth: 1,
+              borderBottomColor: Colors.border.primary,
+            }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <LinearGradient
+                  colors={Colors.gradients.secondary}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 20,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: 12,
+                  }}
+                >
+                  <Text style={{
+                    color: Colors.text.primary,
+                    fontWeight: 'bold',
+                    fontSize: 16,
+                  }}>
                     {user?.email?.charAt(0).toUpperCase() || "U"}
                   </Text>
-                </View>
-                <View className="flex-1">
-                  <Text className="text-[#FAFAFA] font-semibold text-sm">
+                </LinearGradient>
+                <View style={{ flex: 1 }}>
+                  <Text style={{
+                    color: Colors.text.primary,
+                    fontWeight: '600',
+                    fontSize: 14,
+                  }}>
                     {user?.email || "Guest User"}
                   </Text>
-                  <Text className="text-[#FAFAFA] opacity-70 text-xs">
+                  <Text style={{
+                    color: Colors.text.secondary,
+                    fontSize: 12,
+                  }}>
                     Signed in
                   </Text>
                 </View>
@@ -83,121 +150,310 @@ const home = () => {
             </View>
 
             {/* Menu Options */}
-            <View className="py-2">
+            <View style={{ paddingVertical: 8 }}>
               <TouchableOpacity
-                className="px-4 py-3 flex-row items-center"
+                style={{
+                  paddingHorizontal: 16,
+                  paddingVertical: 12,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
                 onPress={() => {
                   setShowProfileMenu(false);
                   router.push("/profile");
                 }}
+                activeOpacity={0.8}
               >
-                <Text className="text-2xl mr-3">👤</Text>
-                <Text className="text-[#FAFAFA] text-base">My Profile</Text>
+                <Text style={{ fontSize: 20, marginRight: 12 }}>👤</Text>
+                <Text style={{
+                  color: Colors.text.primary,
+                  fontSize: 16,
+                  fontWeight: '500',
+                }}>
+                  My Profile
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                className="px-4 py-3 flex-row items-center"
+                style={{
+                  paddingHorizontal: 16,
+                  paddingVertical: 12,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
                 onPress={() => {
                   setShowProfileMenu(false);
                   // Navigate to settings when implemented
                 }}
+                activeOpacity={0.8}
               >
-                <Text className="text-2xl mr-3">⚙️</Text>
-                <Text className="text-[#FAFAFA] text-base">Settings</Text>
+                <Text style={{ fontSize: 20, marginRight: 12 }}>⚙️</Text>
+                <Text style={{
+                  color: Colors.text.primary,
+                  fontSize: 16,
+                  fontWeight: '500',
+                }}>
+                  Settings
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                className="px-4 py-3 flex-row items-center"
+                style={{
+                  paddingHorizontal: 16,
+                  paddingVertical: 12,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
                 onPress={() => {
                   setShowProfileMenu(false);
                   // Help/Support functionality
                 }}
+                activeOpacity={0.8}
               >
-                <Text className="text-2xl mr-3">❓</Text>
-                <Text className="text-[#FAFAFA] text-base">Help & Support</Text>
+                <Text style={{ fontSize: 20, marginRight: 12 }}>❓</Text>
+                <Text style={{
+                  color: Colors.text.primary,
+                  fontSize: 16,
+                  fontWeight: '500',
+                }}>
+                  Help & Support
+                </Text>
               </TouchableOpacity>
 
               {/* Divider */}
-              <View className="h-px bg-[#404040] mx-4 my-2" />
+              <View style={{
+                height: 1,
+                backgroundColor: Colors.border.primary,
+                marginHorizontal: 16,
+                marginVertical: 8,
+              }} />
 
               {/* Logout */}
               <TouchableOpacity
-                className="px-4 py-3 flex-row items-center"
+                style={{
+                  paddingHorizontal: 16,
+                  paddingVertical: 12,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
                 onPress={handleLogout}
+                activeOpacity={0.8}
               >
-                <Text className="text-2xl mr-3">🚪</Text>
-                <Text className="text-[#ff4444] text-base font-semibold">
+                <Text style={{ fontSize: 20, marginRight: 12 }}>🚪</Text>
+                <Text style={{
+                  color: Colors.status.error,
+                  fontSize: 16,
+                  fontWeight: '600',
+                }}>
                   Logout
                 </Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </LinearGradient>
         </View>
       </TouchableOpacity>
     </Modal>
   );
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity className="bg-[#5f5f5f] max-h-64 max-w-xs flex justify-center rounded-lg p-4 mx-4 shadow-md">
-      {/* <Image
-        resizeMode="cover"
-        source={{ uri: item.image }}
-        className="h-28 mt-2 mb-1 rounded-lg "
-      /> */}
-      <Text className="text-[#FAFAFA] text-lg font-bold mb-2">{item.name}</Text>
-      <Text className="text-[#fafafa] text-base mb-2">{item.address}</Text>
-      <Text className="text-[#fafafa] text-base mb-2">
-        Open: {item.opening} Close: {item.closing}
-      </Text>
-    </TouchableOpacity>
-  );
+
 
   return (
-    <SafeAreaView
-      style={[
-        { backgroundColor: "#0D1B2A" },
-        Platform.OS == "android" && { paddingBottom: 55 },
-        Platform.OS == "ios" && { paddingBottom: 20 },
-      ]}
+    <LinearGradient
+      colors={Colors.gradients.background}
+      style={{ flex: 1 }}
     >
-      <View className="flex items-center justify-center">
-        <View className="bg-[#5f5f5f] w-11/12 rounded-lg shadow-lg justify-center items-center flex flex-row p-2">
-          <View className="flex flex-row items-center justify-center flex-1">
-            <Text
-              className={`text-base h-10 pt-[${
-                Platform.OS == "ios" ? 8 : 6.5
-              }] align-middle text-[#FAFAFA]`}
-            >
-              Welcome to{" "}
-            </Text>
-            <Image source={logo} resizeMode="cover" className="w-20 h-12" />
-          </View>
+      <SafeAreaView style={{ flex: 1 }}>
+        {/* Enhanced Header */}
+        <View style={{ paddingHorizontal: 16, paddingVertical: 12 }}>
+          <LinearGradient
+            colors={Colors.gradients.card}
+            style={{
+              borderRadius: 16,
+              padding: 16,
+              shadowColor: Colors.primary.main,
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.15,
+              shadowRadius: 12,
 
-          {/* Profile Avatar/Menu Button */}
-          <TouchableOpacity
-            onPress={() => setShowProfileMenu(true)}
-            className="w-10 h-10 bg-[#ffa200] rounded-full flex items-center justify-center ml-3"
+              borderWidth: 1,
+              borderColor: Colors.border.primary,
+            }}
           >
-            <Text className="text-white font-bold text-lg">
-              {user?.email?.charAt(0).toUpperCase() || "U"}
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{
+                  fontSize: 16,
+                  color: Colors.text.secondary,
+                  fontWeight: '600',
+                  marginRight: 8,
+                }}>
+                  Welcome to
+                </Text>
+                <Image 
+                  source={logo} 
+                  style={{
+                    width: Math.min(width * 0.2, 80),
+                    height: Math.min(width * 0.12, 48)
+                  }}
+                  resizeMode="contain" 
+                />
+              </View>
+
+              {/* Enhanced Profile Avatar */}
+              <TouchableOpacity
+                onPress={() => setShowProfileMenu(true)}
+                activeOpacity={0.8}
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 24,
+                  shadowColor: Colors.secondary.main,
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 4,
+
+                }}
+              >
+                <LinearGradient
+                  colors={Colors.gradients.secondary}
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 24,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Text style={{
+                    color: Colors.text.primary,
+                    fontWeight: 'bold',
+                    fontSize: 18,
+                  }}>
+                    {user?.email?.charAt(0).toUpperCase() || "U"}
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        </View>
+
+        {/* Enhanced Content */}
+        <ScrollView 
+          style={{ flex: 1 }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: Platform.OS === 'ios' ? 20 : 55 }}
+        >
+          <View style={{ padding: 16 }}>
+            <Text style={{
+              fontSize: 24,
+              color: Colors.text.primary,
+              fontWeight: 'bold',
+              marginBottom: 16,
+              textAlign: 'center',
+            }}>
+              🎉 Events & Activities
             </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <ScrollView>
-        <View className="p-4 bg-[#0D1B2A] flex-row items-center">
-          <Text className="text-3xl text-[#FAFAFA] mr-2 font-semibold">
-            Events here
-          </Text>
-        </View>
-      </ScrollView>
+            
+            {/* Enhanced Content Cards */}
+            <LinearGradient
+              colors={Colors.gradients.card}
+              style={{
+                borderRadius: 16,
+                padding: 20,
+                marginBottom: 16,
+                ...createShadow(Colors.primary.main, { width: 0, height: 4 }, 0.1, 8, 6),
+                borderWidth: 1,
+                borderColor: Colors.border.primary,
+              }}
+            >
+              <Text style={{
+                color: Colors.text.primary,
+                fontSize: 18,
+                fontWeight: 'bold',
+                marginBottom: 8,
+              }}>
+                🎪 No events available
+              </Text>
+              <Text style={{
+                color: Colors.text.secondary,
+                fontSize: 14,
+                lineHeight: 20,
+              }}>
+                Check back later for upcoming events and activities. We&apos;re working on bringing you exciting experiences!
+              </Text>
+            </LinearGradient>
 
-      {/* Profile Menu Modal */}
-      <ProfileMenuModal />
+            <LinearGradient
+              colors={Colors.gradients.card}
+              style={{
+                borderRadius: 16,
+                padding: 20,
+                marginBottom: 16,
+                ...createShadow(Colors.secondary.main, { width: 0, height: 4 }, 0.1, 8, 6),
+                borderWidth: 1,
+                borderColor: Colors.border.primary,
+              }}
+            >
+              <Text style={{
+                color: Colors.text.primary,
+                fontSize: 18,
+                fontWeight: 'bold',
+                marginBottom: 8,
+              }}>
+                📍 Explore Nearby
+              </Text>
+              <Text style={{
+                color: Colors.text.secondary,
+                fontSize: 14,
+                lineHeight: 20,
+              }}>
+                Discover interesting places and activities around you. Your next adventure is just around the corner!
+              </Text>
+            </LinearGradient>
 
-      <Toast />
-    </SafeAreaView>
+            <LinearGradient
+              colors={Colors.gradients.card}
+              style={{
+                borderRadius: 16,
+                padding: 20,
+                marginBottom: 16,
+                ...createShadow(Colors.status.warning, { width: 0, height: 4 }, 0.1, 8, 6),
+                borderWidth: 1,
+                borderColor: Colors.border.primary,
+              }}
+            >
+              <Text style={{
+                color: Colors.text.primary,
+                fontSize: 18,
+                fontWeight: 'bold',
+                marginBottom: 8,
+              }}>
+                ⭐ Featured
+              </Text>
+              <Text style={{
+                color: Colors.text.secondary,
+                fontSize: 14,
+                lineHeight: 20,
+              }}>
+                Check out our featured recommendations just for you. Personalized experiences await!
+              </Text>
+            </LinearGradient>
+          </View>
+        </ScrollView>
+
+        {/* Profile Menu Modal */}
+        <ProfileMenuModal />
+
+        {/* Auth Loading Screen */}
+        <AuthLoadingScreen 
+          isVisible={isLoading} 
+          type="logout"
+        />
+
+        <Toast />
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
-export default home;
+export default Home;
