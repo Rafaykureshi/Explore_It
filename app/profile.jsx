@@ -6,6 +6,7 @@ import { EmailAuthProvider, reauthenticateWithCredential, updatePassword, update
 import { useEffect, useState } from "react";
 import {
     Alert,
+    Dimensions,
     Image,
     Platform,
     ScrollView,
@@ -19,6 +20,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { auth } from "../config/firebaseConfig";
 
+const { width } = Dimensions.get('window');
+
 const Profile = () => {
   const router = useRouter();
   const user = auth.currentUser;
@@ -27,7 +30,7 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState(user?.email || "");
+  const [email] = useState(user?.email || "");
   const [isEditing, setIsEditing] = useState(false);
   
   // Security States
@@ -336,7 +339,7 @@ const Profile = () => {
         text2: 'Your preferences have been updated.',
         position: 'top'
       });
-    } catch (error) {
+    } catch (_error) {
       Toast.show({
         type: 'error',
         text1: '❌ Save Failed',
@@ -347,33 +350,55 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView
-      style={[
-        { backgroundColor: "#0D1B2A", flex: 1 },
-        Platform.OS == "android" && { paddingBottom: 55 },
-        Platform.OS == "ios" && { paddingBottom: 20 },
-      ]}
-    >
+    <SafeAreaView className="bg-[#0D1B2A] flex-1">
       {/* Header */}
       <View className="flex-row items-center justify-between p-4 border-b border-[#404040]">
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity 
+          onPress={() => router.back()}
+          className="p-2"
+          activeOpacity={0.8}
+        >
           <Text className="text-[#ffa200] text-lg">← Back</Text>
         </TouchableOpacity>
-        <Text className="text-xl text-[#FAFAFA] font-bold">Profile Settings</Text>
-        <View className="w-16" />
+        <Text className="text-xl text-[#FAFAFA] font-bold flex-1 text-center">
+          Profile Settings
+        </Text>
+        <View className="w-12" />
       </View>
 
-      <ScrollView className="flex-1 px-4">
+      <ScrollView 
+        className="flex-1"
+        contentContainerStyle={{ 
+          paddingHorizontal: 16,
+          paddingBottom: Platform.OS === 'ios' ? 20 : 55 
+        }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Profile Picture Section */}
         <View className="items-center py-6">
-          <TouchableOpacity onPress={showImageOptions} className="relative">
+          <TouchableOpacity 
+            onPress={showImageOptions} 
+            className="relative"
+            activeOpacity={0.8}
+          >
             {profileImage ? (
               <Image 
                 source={{ uri: profileImage }} 
-                className="w-24 h-24 rounded-full"
+                style={{
+                  width: Math.min(width * 0.25, 100),
+                  height: Math.min(width * 0.25, 100),
+                  borderRadius: Math.min(width * 0.125, 50)
+                }}
               />
             ) : (
-              <View className="w-24 h-24 bg-[#ffa200] rounded-full flex items-center justify-center">
+              <View 
+                style={{
+                  width: Math.min(width * 0.25, 100),
+                  height: Math.min(width * 0.25, 100),
+                  borderRadius: Math.min(width * 0.125, 50)
+                }}
+                className="bg-[#ffa200] flex items-center justify-center"
+              >
                 <Text className="text-3xl text-white font-bold">
                   {firstName?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || "U"}
                 </Text>
@@ -390,48 +415,53 @@ const Profile = () => {
         <View className="bg-[#5f5f5f] rounded-lg p-4 mb-4">
           <View className="flex-row items-center justify-between mb-4">
             <Text className="text-[#FAFAFA] text-lg font-semibold">Personal Information</Text>
-            <TouchableOpacity onPress={() => setIsEditing(!isEditing)}>
+            <TouchableOpacity 
+              onPress={() => setIsEditing(!isEditing)}
+              activeOpacity={0.8}
+            >
               <Text className="text-[#ffa200] text-sm">
                 {isEditing ? "Cancel" : "✏️ Edit"}
               </Text>
             </TouchableOpacity>
           </View>
 
-          <View className="space-y-3">
+          <View className="space-y-4">
             <View>
-              <Text className="text-[#FAFAFA] text-sm mb-1">First Name</Text>
+              <Text className="text-[#FAFAFA] text-sm mb-2">First Name</Text>
               <TextInput
                 value={firstName}
                 onChangeText={setFirstName}
                 editable={isEditing}
-                className={`h-12 px-3 rounded-lg text-[#FAFAFA] ${
+                className={`h-12 px-4 rounded-lg text-[#FAFAFA] ${
                   isEditing ? "bg-[#404040] border border-[#ffa200]" : "bg-[#404040]"
                 }`}
                 placeholder="Enter first name"
                 placeholderTextColor="#999"
+                autoCorrect={false}
               />
             </View>
 
             <View>
-              <Text className="text-[#FAFAFA] text-sm mb-1">Last Name</Text>
+              <Text className="text-[#FAFAFA] text-sm mb-2">Last Name</Text>
               <TextInput
                 value={lastName}
                 onChangeText={setLastName}
                 editable={isEditing}
-                className={`h-12 px-3 rounded-lg text-[#FAFAFA] ${
+                className={`h-12 px-4 rounded-lg text-[#FAFAFA] ${
                   isEditing ? "bg-[#404040] border border-[#ffa200]" : "bg-[#404040]"
                 }`}
                 placeholder="Enter last name"
                 placeholderTextColor="#999"
+                autoCorrect={false}
               />
             </View>
 
             <View>
-              <Text className="text-[#FAFAFA] text-sm mb-1">Email</Text>
+              <Text className="text-[#FAFAFA] text-sm mb-2">Email</Text>
               <TextInput
                 value={email}
                 editable={false}
-                className="h-12 px-3 rounded-lg text-[#FAFAFA] bg-[#404040] opacity-60"
+                className="h-12 px-4 rounded-lg text-[#FAFAFA] bg-[#404040] opacity-60"
                 placeholder="Email address"
                 placeholderTextColor="#999"
               />
@@ -442,9 +472,10 @@ const Profile = () => {
               <TouchableOpacity
                 onPress={handleSaveProfile}
                 disabled={isLoading}
-                className={`h-12 rounded-lg flex items-center justify-center ${
+                className={`h-12 rounded-lg flex items-center justify-center mt-2 ${
                   isLoading ? "bg-gray-400" : "bg-[#2979FF]"
                 }`}
+                activeOpacity={0.8}
               >
                 <Text className="text-white font-semibold">
                   {isLoading ? "Saving..." : "💾 Save Changes"}
@@ -458,7 +489,10 @@ const Profile = () => {
         <View className="bg-[#5f5f5f] rounded-lg p-4 mb-4">
           <View className="flex-row items-center justify-between mb-4">
             <Text className="text-[#FAFAFA] text-lg font-semibold">Account Security</Text>
-            <TouchableOpacity onPress={() => setShowPasswordSection(!showPasswordSection)}>
+            <TouchableOpacity 
+              onPress={() => setShowPasswordSection(!showPasswordSection)}
+              activeOpacity={0.8}
+            >
               <Text className="text-[#ffa200] text-sm">
                 {showPasswordSection ? "Cancel" : "🔒 Change Password"}
               </Text>
@@ -466,49 +500,53 @@ const Profile = () => {
           </View>
 
           {showPasswordSection && (
-            <View className="space-y-3">
+            <View className="space-y-4">
               <View>
-                <Text className="text-[#FAFAFA] text-sm mb-1">Current Password</Text>
+                <Text className="text-[#FAFAFA] text-sm mb-2">Current Password</Text>
                 <TextInput
                   value={currentPassword}
                   onChangeText={setCurrentPassword}
                   secureTextEntry
-                  className="h-12 px-3 rounded-lg text-[#FAFAFA] bg-[#404040] border border-[#ffa200]"
+                  className="h-12 px-4 rounded-lg text-[#FAFAFA] bg-[#404040] border border-[#ffa200]"
                   placeholder="Enter current password"
                   placeholderTextColor="#999"
+                  autoCorrect={false}
                 />
               </View>
 
               <View>
-                <Text className="text-[#FAFAFA] text-sm mb-1">New Password</Text>
+                <Text className="text-[#FAFAFA] text-sm mb-2">New Password</Text>
                 <TextInput
                   value={newPassword}
                   onChangeText={setNewPassword}
                   secureTextEntry
-                  className="h-12 px-3 rounded-lg text-[#FAFAFA] bg-[#404040] border border-[#ffa200]"
+                  className="h-12 px-4 rounded-lg text-[#FAFAFA] bg-[#404040] border border-[#ffa200]"
                   placeholder="Enter new password"
                   placeholderTextColor="#999"
+                  autoCorrect={false}
                 />
               </View>
 
               <View>
-                <Text className="text-[#FAFAFA] text-sm mb-1">Confirm New Password</Text>
+                <Text className="text-[#FAFAFA] text-sm mb-2">Confirm New Password</Text>
                 <TextInput
                   value={confirmPassword}
                   onChangeText={setConfirmPassword}
                   secureTextEntry
-                  className="h-12 px-3 rounded-lg text-[#FAFAFA] bg-[#404040] border border-[#ffa200]"
+                  className="h-12 px-4 rounded-lg text-[#FAFAFA] bg-[#404040] border border-[#ffa200]"
                   placeholder="Confirm new password"
                   placeholderTextColor="#999"
+                  autoCorrect={false}
                 />
               </View>
 
               <TouchableOpacity
                 onPress={handleChangePassword}
                 disabled={isLoading}
-                className={`h-12 rounded-lg flex items-center justify-center ${
+                className={`h-12 rounded-lg flex items-center justify-center mt-2 ${
                   isLoading ? "bg-gray-400" : "bg-[#ff4444]"
                 }`}
+                activeOpacity={0.8}
               >
                 <Text className="text-white font-semibold">
                   {isLoading ? "Updating..." : "🔒 Update Password"}
@@ -517,11 +555,13 @@ const Profile = () => {
             </View>
           )}
 
-          <View className="mt-4 p-3 bg-[#404040] rounded-lg">
-            <Text className="text-[#FAFAFA] text-sm font-semibold mb-2">Login History</Text>
-            <Text className="text-[#999] text-xs">Last login: {new Date().toLocaleDateString()}</Text>
-            <Text className="text-[#999] text-xs">Device: {Platform.OS === 'ios' ? 'iPhone' : 'Android'}</Text>
-            <Text className="text-[#999] text-xs">Location: Current Device</Text>
+          <View className="mt-4 p-4 bg-[#404040] rounded-lg">
+            <Text className="text-[#FAFAFA] text-sm font-semibold mb-3">Login History</Text>
+            <View className="space-y-1">
+              <Text className="text-[#999] text-xs">Last login: {new Date().toLocaleDateString()}</Text>
+              <Text className="text-[#999] text-xs">Device: {Platform.OS === 'ios' ? 'iPhone' : 'Android'}</Text>
+              <Text className="text-[#999] text-xs">Location: Current Device</Text>
+            </View>
           </View>
         </View>
 
@@ -529,74 +569,84 @@ const Profile = () => {
         <View className="bg-[#5f5f5f] rounded-lg p-4 mb-6">
           <Text className="text-[#FAFAFA] text-lg font-semibold mb-4">Preferences</Text>
 
-          <View className="space-y-4">
+          <View className="space-y-5">
             {/* Language */}
-            <View className="flex-row items-center justify-between">
-              <View>
-                <Text className="text-[#FAFAFA] text-base">Language</Text>
-                <Text className="text-[#999] text-sm">App display language</Text>
+            <View className="flex-row items-center justify-between py-2">
+              <View className="flex-1 mr-4">
+                <Text className="text-[#FAFAFA] text-base font-medium">Language</Text>
+                <Text className="text-[#999] text-sm mt-1">App display language</Text>
               </View>
-              <TouchableOpacity className="bg-[#404040] px-3 py-2 rounded-lg">
-                <Text className="text-[#ffa200] text-sm">{language}</Text>
+              <TouchableOpacity 
+                className="bg-[#404040] px-4 py-2 rounded-lg"
+                activeOpacity={0.8}
+              >
+                <Text className="text-[#ffa200] text-sm font-medium">{language}</Text>
               </TouchableOpacity>
             </View>
 
             {/* Timezone */}
-            <View className="flex-row items-center justify-between">
-              <View>
-                <Text className="text-[#FAFAFA] text-base">Timezone</Text>
-                <Text className="text-[#999] text-sm">Your local timezone</Text>
+            <View className="flex-row items-center justify-between py-2">
+              <View className="flex-1 mr-4">
+                <Text className="text-[#FAFAFA] text-base font-medium">Timezone</Text>
+                <Text className="text-[#999] text-sm mt-1">Your local timezone</Text>
               </View>
-              <TouchableOpacity className="bg-[#404040] px-3 py-2 rounded-lg">
-                <Text className="text-[#ffa200] text-sm">{timezone}</Text>
+              <TouchableOpacity 
+                className="bg-[#404040] px-4 py-2 rounded-lg"
+                activeOpacity={0.8}
+              >
+                <Text className="text-[#ffa200] text-sm font-medium">{timezone}</Text>
               </TouchableOpacity>
             </View>
 
             {/* Push Notifications */}
-            <View className="flex-row items-center justify-between">
-              <View>
-                <Text className="text-[#FAFAFA] text-base">Push Notifications</Text>
-                <Text className="text-[#999] text-sm">Receive push notifications</Text>
+            <View className="flex-row items-center justify-between py-2">
+              <View className="flex-1 mr-4">
+                <Text className="text-[#FAFAFA] text-base font-medium">Push Notifications</Text>
+                <Text className="text-[#999] text-sm mt-1">Receive push notifications</Text>
               </View>
               <Switch
                 value={pushNotifications}
                 onValueChange={setPushNotifications}
                 trackColor={{ false: "#404040", true: "#ffa200" }}
                 thumbColor={pushNotifications ? "#fff" : "#999"}
+                ios_backgroundColor="#404040"
               />
             </View>
 
             {/* Email Notifications */}
-            <View className="flex-row items-center justify-between">
-              <View>
-                <Text className="text-[#FAFAFA] text-base">Email Notifications</Text>
-                <Text className="text-[#999] text-sm">Receive email updates</Text>
+            <View className="flex-row items-center justify-between py-2">
+              <View className="flex-1 mr-4">
+                <Text className="text-[#FAFAFA] text-base font-medium">Email Notifications</Text>
+                <Text className="text-[#999] text-sm mt-1">Receive email updates</Text>
               </View>
               <Switch
                 value={emailNotifications}
                 onValueChange={setEmailNotifications}
                 trackColor={{ false: "#404040", true: "#ffa200" }}
                 thumbColor={emailNotifications ? "#fff" : "#999"}
+                ios_backgroundColor="#404040"
               />
             </View>
 
             {/* Dark Mode */}
-            <View className="flex-row items-center justify-between">
-              <View>
-                <Text className="text-[#FAFAFA] text-base">Dark Mode</Text>
-                <Text className="text-[#999] text-sm">Use dark theme</Text>
+            <View className="flex-row items-center justify-between py-2">
+              <View className="flex-1 mr-4">
+                <Text className="text-[#FAFAFA] text-base font-medium">Dark Mode</Text>
+                <Text className="text-[#999] text-sm mt-1">Use dark theme</Text>
               </View>
               <Switch
                 value={darkMode}
                 onValueChange={setDarkMode}
                 trackColor={{ false: "#404040", true: "#ffa200" }}
                 thumbColor={darkMode ? "#fff" : "#999"}
+                ios_backgroundColor="#404040"
               />
             </View>
 
             <TouchableOpacity
               onPress={handleSavePreferences}
-              className="h-12 bg-[#2979FF] rounded-lg flex items-center justify-center mt-4"
+              className="h-12 bg-[#2979FF] rounded-lg flex items-center justify-center mt-6"
+              activeOpacity={0.8}
             >
               <Text className="text-white font-semibold">💾 Save Preferences</Text>
             </TouchableOpacity>
