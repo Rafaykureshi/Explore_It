@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
-import emptyImg from "../../assets/images/banner.png";
 import logo from "../../assets/images/logo.png";
 import { auth } from "../../config/firebaseConfig";
 import { signupSchema } from "../../utils/authSchema";
@@ -114,12 +113,13 @@ const Signup = () => {
 
   return (
     <SafeAreaView className={"bg-[#0D1B2A]"}>
-      <ScrollView contentContainerStyle={{ height: "100%" }} scrollEnabled>
-        <View className={"m-2 flex justify-center items-center"}>
-          <Image source={logo} style={{ width: 250, height: 150 }} />
-          <Text
-            className={"text-lg text-center text-[#ffa200] font-bold mb-10"}
-          >
+      <ScrollView
+        contentContainerStyle={{ height: "100%" }}
+        scrollEnabled={true}
+      >
+        <View className={"m-1 flex justify-center items-center"}>
+          <Image source={logo} style={{ width: 200, height: 150 }} />
+          <Text className={"text-lg text-center text-[#ffa200] font-bold mb-2"}>
             Welcome Back
           </Text>
 
@@ -147,7 +147,7 @@ const Signup = () => {
                 <View className={"w-full"}>
                   <TextInput
                     className={
-                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2 mt-2 mb-2"
+                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
                     }
                     onChangeText={handleChange("fname")}
                     onBlur={handleBlur("fname")}
@@ -156,14 +156,14 @@ const Signup = () => {
                     placeholderTextColor={"#ffa200"}
                   />
                   {touched.fname && errors.fname && (
-                    <Text className={"text-red-500 text-xs mb-2"}>
+                    <Text className={"text-red-500 text-xs"}>
                       {errors.fname}
                     </Text>
                   )}
 
                   <TextInput
                     className={
-                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2 mt-2 mb-2"
+                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
                     }
                     onChangeText={handleChange("lname")}
                     onBlur={handleBlur("lname")}
@@ -172,14 +172,14 @@ const Signup = () => {
                     placeholderTextColor={"#ffa200"}
                   />
                   {touched.lname && errors.lname && (
-                    <Text className={"text-red-500 text-xs mb-2"}>
+                    <Text className={"text-red-500 text-xs"}>
                       {errors.lname}
                     </Text>
                   )}
 
                   <TextInput
                     className={
-                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2 mt-2 mb-2"
+                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
                     }
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
@@ -190,14 +190,14 @@ const Signup = () => {
                     autoCapitalize="none"
                   />
                   {touched.email && errors.email && (
-                    <Text className={"text-red-500 text-xs mb-2"}>
+                    <Text className={"text-red-500 text-xs"}>
                       {errors.email}
                     </Text>
                   )}
 
                   <TextInput
                     className={
-                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2 mt-2 mb-2"
+                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
                     }
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
@@ -207,14 +207,14 @@ const Signup = () => {
                     value={values.password}
                   />
                   {touched.password && errors.password && (
-                    <Text className={"text-red-500 text-xs mb-2"}>
+                    <Text className={"text-red-500 text-xs"}>
                       {errors.password}
                     </Text>
                   )}
 
                   <TextInput
                     className={
-                      "h-12 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2 mt-2 mb-2"
+                      "h-12 mt-1 border border-[#FAFAFA] text-[#FAFAFA] rounded px-2"
                     }
                     onChangeText={handleChange("cpassword")}
                     onBlur={handleBlur("cpassword")}
@@ -224,7 +224,7 @@ const Signup = () => {
                     value={values.cpassword}
                   />
                   {touched.cpassword && errors.cpassword && (
-                    <Text className={"text-red-500 text-xs mb-2"}>
+                    <Text className={"text-red-500 text-xs"}>
                       {errors.cpassword}
                     </Text>
                   )}
@@ -232,7 +232,7 @@ const Signup = () => {
                   <TouchableOpacity
                     onPress={handleSubmit}
                     disabled={isSubmitting}
-                    className={`p-2 my-2 mt-10 ${
+                    className={`p-2 mt-2 ${
                       isSubmitting ? "bg-gray-400" : "bg-[#2979FF]"
                     } text-black rounded-lg`}
                   >
@@ -245,7 +245,7 @@ const Signup = () => {
             </Formik>
             <View className="flex justify-center items-center">
               <TouchableOpacity
-                className={"flex flex-row justify-center mt-5 p-2 items-center"}
+                className={"flex flex-row justify-center p-2 items-center"}
                 onPress={() => router.push("/signin")}
               >
                 <Text className={"text-[#FAFAFA] font-semibold"}>
@@ -261,12 +261,11 @@ const Signup = () => {
               </TouchableOpacity>
               <Text
                 className={
-                  "text-lg font-semibold text-center mb-4 text-[#FAFAFA]"
+                  "text-lg font-semibold text-center mb-1 text-[#FAFAFA]"
                 }
               >
-                <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />{" "}
-                or{" "}
-                <View className={"border-b-2 border-[#2979FF] p-2 mb-1 w-24"} />
+                <View className={"border-b-2 border-[#2979FF] p-2 w-24"} /> or{" "}
+                <View className={"border-b-2 border-[#2979FF] p-2 w-24"} />
               </Text>
               <TouchableOpacity
                 className={"flex flex-row justify-center mb-5 p-2 items-center"}
@@ -284,13 +283,6 @@ const Signup = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
-        <View className={"flex-1"}>
-          <Image
-            source={emptyImg}
-            className={"w-full h-full"}
-            resizeMode="contain"
-          />
         </View>
 
         <StatusBar barStyle={"light-content"} backgroundColor={"#0D1B2A"} />
