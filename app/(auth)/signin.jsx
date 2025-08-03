@@ -2,20 +2,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import {
-    sendPasswordResetEmail,
-    signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { Formik } from "formik";
 import {
-    Dimensions,
-    Image,
-    Platform,
-    ScrollView,
-    StatusBar,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Dimensions,
+  Image,
+  Platform,
+  ScrollView,
+  StatusBar,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -28,11 +28,12 @@ import { signinSchema } from "../../utils/authSchema";
 import { createShadow } from "../../utils/shadowHelper";
 import { useAuthLoading } from "../../utils/useAuthLoading";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 const Signin = () => {
   const router = useRouter();
-  const { isLoading, loadingType, startLoading, stopLoading } = useAuthLoading();
+  const { isLoading, loadingType, startLoading, stopLoading } =
+    useAuthLoading();
 
   const handlePasswordReset = async (email) => {
     if (!email) {
@@ -47,7 +48,7 @@ const Signin = () => {
     }
 
     try {
-      startLoading('login', 'Sending password reset email...');
+      startLoading("login", "Sending password reset email...");
       await sendPasswordResetEmail(auth, email);
       stopLoading();
       Toast.show({
@@ -79,12 +80,12 @@ const Signin = () => {
   };
   const handleGuest = async () => {
     try {
-      startLoading('login', 'Setting up guest session...');
+      startLoading("login", "Setting up guest session...");
       await AsyncStorage.setItem("isGuest", "true");
-      
+
       // Short delay to show the loading animation
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       stopLoading();
       router.push("/home");
     } catch (error) {
@@ -101,9 +102,9 @@ const Signin = () => {
   };
   const handleSignin = async (values, { setSubmitting, setFieldError }) => {
     console.log("Attempting signin with:", values.email);
-    
+
     try {
-      startLoading('login');
+      startLoading("login");
       const userCredential = await signInWithEmailAndPassword(
         auth,
         values.email,
@@ -149,7 +150,7 @@ const Signin = () => {
           });
           break;
         case "auth/wrong-password":
-        case "auth/invalid-credential":
+        case "auth/invalid-credentials":
           setFieldError("password", "Incorrect password");
           Toast.show({
             type: "error",
@@ -202,300 +203,350 @@ const Signin = () => {
   };
 
   return (
-    <LinearGradient
-      colors={Colors.gradients.background}
-      style={{ flex: 1 }}
-    >
+    <LinearGradient colors={Colors.gradients.background} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar barStyle="light-content" backgroundColor={Colors.background.primary} />
-        <AuthLoadingScreen 
-          isVisible={isLoading} 
-          type={loadingType} 
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={Colors.background.primary}
         />
-        <ScrollView 
-          contentContainerStyle={{ 
+        <AuthLoadingScreen isVisible={isLoading} type={loadingType} />
+        <ScrollView
+          contentContainerStyle={{
             flexGrow: 1,
-            minHeight: height - (Platform.OS === 'ios' ? 100 : 80)
+            minHeight: height - (Platform.OS === "ios" ? 100 : 80),
           }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 32 }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 16,
+              paddingVertical: 32,
+            }}
+          >
             {/* Logo Section */}
-            <View style={{ alignItems: 'center', marginBottom: 24 }}>
+            <View style={{ alignItems: "center", marginBottom: 24 }}>
               <Image
                 source={logo}
-                style={{ 
-                  width: Math.min(width * 0.6, 240), 
+                style={{
+                  width: Math.min(width * 0.6, 240),
                   height: Math.min(width * 0.36, 144),
                   maxWidth: 240,
-                  maxHeight: 144
+                  maxHeight: 144,
                 }}
                 resizeMode="contain"
               />
-              <Text style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                textAlign: 'center',
-                color: Colors.secondary.main,
-                marginTop: 16,
-              }}>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: Colors.secondary.main,
+                  marginTop: 16,
+                }}
+              >
                 ✨ Welcome Back
               </Text>
             </View>
 
-          {/* Form Section with Card Background */}
-          <View 
-            style={{
-              width: '100%',
-              maxWidth: 400,
-              backgroundColor: Colors.background.secondary,
-              borderRadius: 20,
-              padding: 24,
-              ...createShadow(Colors.primary.main, { width: 0, height: 8 }, 0.15, 16, 12),
-              borderWidth: 1,
-              borderColor: Colors.border.primary,
-            }}
-          >
-            <Formik
-              initialValues={{ email: "", password: "" }}
-              validationSchema={signinSchema}
-              onSubmit={handleSignin}
+            {/* Form Section with Card Background */}
+            <View
+              style={{
+                width: "100%",
+                maxWidth: 400,
+                backgroundColor: Colors.background.secondary,
+                borderRadius: 20,
+                padding: 24,
+                ...createShadow(
+                  Colors.primary.main,
+                  { width: 0, height: 8 },
+                  0.15,
+                  16,
+                  12
+                ),
+                borderWidth: 1,
+                borderColor: Colors.border.primary,
+              }}
             >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-                touched,
-                isSubmitting,
-              }) => (
-                <View className="w-full">
-                  <Text style={{
-                    color: Colors.secondary.main,
-                    fontSize: 14,
-                    fontWeight: '600',
-                    marginBottom: 8,
-                  }}>
-                    📧 Email
-                  </Text>
-                  <TextInput
-                    style={{
-                      height: 48,
-                      backgroundColor: Colors.background.tertiary,
-                      borderColor: Colors.border.primary,
-                      borderWidth: 1,
-                      borderRadius: 12,
-                      paddingHorizontal: 16,
-                      color: Colors.text.primary,
-                      fontSize: 16,
-                      marginBottom: 4,
-                    }}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                    keyboardType="email-address"
-                    placeholder="Enter your email address"
-                    placeholderTextColor={Colors.text.tertiary}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  {touched.email && errors.email && (
-                    <Text style={{
-                      color: Colors.status.error,
-                      fontSize: 12,
-                      marginBottom: 12,
-                      marginLeft: 4,
-                    }}>
-                      {errors.email}
-                    </Text>
-                  )}
-
-                  <Text style={{
-                    color: Colors.secondary.main,
-                    fontSize: 14,
-                    fontWeight: '600',
-                    marginBottom: 8,
-                    marginTop: 16,
-                  }}>
-                    🔒 Password
-                  </Text>
-                  <PasswordInput
-                    value={values.password}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    placeholder="Enter your password"
-                    placeholderTextColor={Colors.text.tertiary}
-                    style={{
-                      height: 48,
-                      backgroundColor: Colors.background.tertiary,
-                      borderColor: Colors.border.primary,
-                      borderWidth: 1,
-                      borderRadius: 12,
-                      paddingHorizontal: 16,
-                      color: Colors.text.primary,
-                      fontSize: 16,
-                      marginBottom: 4,
-                    }}
-                  />
-                  {touched.password && errors.password && (
-                    <Text style={{
-                      color: Colors.status.error,
-                      fontSize: 12,
-                      marginBottom: 12,
-                      marginLeft: 4,
-                    }}>
-                      {errors.password}
-                    </Text>
-                  )}
-
-                  {/* Sign In Button with Logo-Matched Gradient */}
-                  <TouchableOpacity
-                    onPress={handleSubmit}
-                    disabled={isSubmitting}
-                    activeOpacity={0.8}
-                    style={{
-                      marginVertical: 24,
-                      borderRadius: 12,
-                      ...createShadow(Colors.secondary.main, { width: 0, height: 4 }, 0.3, 8, 8),
-                    }}
-                  >
-                    <LinearGradient
-                      colors={isSubmitting ? [Colors.interactive.disabled, Colors.interactive.disabled] : ['#F59E0B', '#EF4444']}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
+              <Formik
+                initialValues={{ email: "", password: "" }}
+                validationSchema={signinSchema}
+                onSubmit={handleSignin}
+              >
+                {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  errors,
+                  touched,
+                  isSubmitting,
+                }) => (
+                  <View className="w-full">
+                    <Text
                       style={{
-                        paddingVertical: 16,
-                        paddingHorizontal: 24,
-                        borderRadius: 12,
+                        color: Colors.secondary.main,
+                        fontSize: 14,
+                        fontWeight: "600",
+                        marginBottom: 8,
                       }}
                     >
-                      <Text style={{
-                        fontSize: 18,
-                        fontWeight: '600',
-                        textAlign: 'center',
-                        color: Colors.text.primary,
-                      }}>
-                        {isSubmitting ? "🔄 Signing In..." : "🚀 Sign In"}
-                      </Text>
-                    </LinearGradient>
-                  </TouchableOpacity>
-
-                  {/* Forgot Password Button */}
-                  <TouchableOpacity
-                    onPress={() => handlePasswordReset(values.email)}
-                    activeOpacity={0.8}
-                    style={{ paddingVertical: 8 }}
-                  >
-                    <Text style={{
-                      color: Colors.secondary.main,
-                      textAlign: 'center',
-                      fontWeight: '600',
-                      fontSize: 14,
-                      textDecoration: 'underline',
-                    }}>
-                      🔑 Forgot Password?
+                      📧 Email
                     </Text>
-                  </TouchableOpacity>
+                    <TextInput
+                      style={{
+                        height: 48,
+                        backgroundColor: Colors.background.tertiary,
+                        borderColor: Colors.border.primary,
+                        borderWidth: 1,
+                        borderRadius: 12,
+                        paddingHorizontal: 16,
+                        color: Colors.text.primary,
+                        fontSize: 16,
+                        marginBottom: 4,
+                      }}
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                      keyboardType="email-address"
+                      placeholder="Enter your email address"
+                      placeholderTextColor={Colors.text.tertiary}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                    />
+                    {touched.email && errors.email && (
+                      <Text
+                        style={{
+                          color: Colors.status.error,
+                          fontSize: 12,
+                          marginBottom: 12,
+                          marginLeft: 4,
+                        }}
+                      >
+                        {errors.email}
+                      </Text>
+                    )}
+
+                    <Text
+                      style={{
+                        color: Colors.secondary.main,
+                        fontSize: 14,
+                        fontWeight: "600",
+                        marginBottom: 8,
+                        marginTop: 16,
+                      }}
+                    >
+                      🔒 Password
+                    </Text>
+                    <PasswordInput
+                      value={values.password}
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      placeholder="Enter your password"
+                      placeholderTextColor={Colors.text.tertiary}
+                      style={{
+                        height: 48,
+                        backgroundColor: Colors.background.tertiary,
+                        borderColor: Colors.border.primary,
+                        borderWidth: 1,
+                        borderRadius: 12,
+                        paddingHorizontal: 16,
+                        color: Colors.text.primary,
+                        fontSize: 16,
+                        marginBottom: 4,
+                      }}
+                    />
+                    {touched.password && errors.password && (
+                      <Text
+                        style={{
+                          color: Colors.status.error,
+                          fontSize: 12,
+                          marginBottom: 12,
+                          marginLeft: 4,
+                        }}
+                      >
+                        {errors.password}
+                      </Text>
+                    )}
+
+                    {/* Sign In Button with Logo-Matched Gradient */}
+                    <TouchableOpacity
+                      onPress={handleSubmit}
+                      disabled={isSubmitting}
+                      activeOpacity={0.8}
+                      style={{
+                        marginVertical: 24,
+                        borderRadius: 12,
+                        ...createShadow(
+                          Colors.secondary.main,
+                          { width: 0, height: 4 },
+                          0.3,
+                          8,
+                          8
+                        ),
+                      }}
+                    >
+                      <LinearGradient
+                        colors={
+                          isSubmitting
+                            ? [
+                                Colors.interactive.disabled,
+                                Colors.interactive.disabled,
+                              ]
+                            : ["#F59E0B", "#EF4444"]
+                        }
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={{
+                          paddingVertical: 16,
+                          paddingHorizontal: 24,
+                          borderRadius: 12,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            fontWeight: "600",
+                            textAlign: "center",
+                            color: Colors.text.primary,
+                          }}
+                        >
+                          {isSubmitting ? "🔄 Signing In..." : "🚀 Sign In"}
+                        </Text>
+                      </LinearGradient>
+                    </TouchableOpacity>
+
+                    {/* Forgot Password Button */}
+                    <TouchableOpacity
+                      onPress={() => handlePasswordReset(values.email)}
+                      activeOpacity={0.8}
+                      style={{ paddingVertical: 8 }}
+                    >
+                      <Text
+                        style={{
+                          color: Colors.secondary.main,
+                          textAlign: "center",
+                          fontWeight: "600",
+                          fontSize: 14,
+                          textDecoration: "underline",
+                        }}
+                      >
+                        🔑 Forgot Password?
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </Formik>
+
+              {/* Navigation Links */}
+              <View style={{ alignItems: "center", marginTop: 24 }}>
+                <TouchableOpacity
+                  onPress={() => router.push("/signup")}
+                  activeOpacity={0.8}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingVertical: 8,
+                    paddingHorizontal: 16,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: Colors.text.secondary,
+                      fontWeight: "600",
+                      marginRight: 4,
+                    }}
+                  >
+                    New user?
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "600",
+                      color: Colors.secondary.main,
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Sign Up
+                  </Text>
+                </TouchableOpacity>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginVertical: 16,
+                  }}
+                >
+                  <LinearGradient
+                    colors={[Colors.primary.main, "transparent"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={{ flex: 1, height: 1, marginHorizontal: 16 }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "600",
+                      color: Colors.text.secondary,
+                      paddingHorizontal: 8,
+                    }}
+                  >
+                    or
+                  </Text>
+                  <LinearGradient
+                    colors={["transparent", Colors.primary.main]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={{ flex: 1, height: 1, marginHorizontal: 16 }}
+                  />
                 </View>
-              )}
-            </Formik>
 
-            {/* Navigation Links */}
-            <View style={{ alignItems: 'center', marginTop: 24 }}>
-              <TouchableOpacity
-                onPress={() => router.push("/signup")}
-                activeOpacity={0.8}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingVertical: 8,
-                  paddingHorizontal: 16,
-                }}
-              >
-                <Text style={{
-                  color: Colors.text.secondary,
-                  fontWeight: '600',
-                  marginRight: 4,
-                }}>
-                  New user?
-                </Text>
-                <Text style={{
-                  fontSize: 16,
-                  fontWeight: '600',
-                  color: Colors.secondary.main,
-                  textDecoration: 'underline',
-                }}>
-                  Sign Up
-                </Text>
-              </TouchableOpacity>
-
-              <View style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginVertical: 16,
-              }}>
-                <LinearGradient
-                  colors={[Colors.primary.main, 'transparent']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={{ flex: 1, height: 1, marginHorizontal: 16 }}
-                />
-                <Text style={{
-                  fontSize: 16,
-                  fontWeight: '600',
-                  color: Colors.text.secondary,
-                  paddingHorizontal: 8,
-                }}>
-                  or
-                </Text>
-                <LinearGradient
-                  colors={['transparent', Colors.primary.main]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={{ flex: 1, height: 1, marginHorizontal: 16 }}
-                />
+                <TouchableOpacity
+                  onPress={handleGuest}
+                  activeOpacity={0.8}
+                  style={{
+                    alignItems: "center",
+                    paddingVertical: 12,
+                    paddingHorizontal: 16,
+                    borderRadius: 8,
+                    backgroundColor: "rgba(245, 158, 11, 0.05)",
+                    borderWidth: 1,
+                    borderColor: "rgba(245, 158, 11, 0.2)",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "600",
+                      color: Colors.secondary.main,
+                      textDecoration: "underline",
+                      marginBottom: 2,
+                    }}
+                  >
+                    👤 Try as Guest
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      fontWeight: "500",
+                      color: Colors.secondary.main,
+                      opacity: 0.7,
+                      textAlign: "center",
+                    }}
+                  >
+                    No sign-up required • Limited access but full preview
+                  </Text>
+                </TouchableOpacity>
               </View>
-
-              <TouchableOpacity
-                onPress={handleGuest}
-                activeOpacity={0.8}
-                style={{
-                  alignItems: 'center',
-                  paddingVertical: 12,
-                  paddingHorizontal: 16,
-                  borderRadius: 8,
-                  backgroundColor: 'rgba(245, 158, 11, 0.05)',
-                  borderWidth: 1,
-                  borderColor: 'rgba(245, 158, 11, 0.2)',
-                }}
-              >
-                <Text style={{
-                  fontSize: 16,
-                  fontWeight: '600',
-                  color: Colors.secondary.main,
-                  textDecoration: 'underline',
-                  marginBottom: 2,
-                }}>
-                  👤 Try as Guest
-                </Text>
-                <Text style={{
-                  fontSize: 11,
-                  fontWeight: '500',
-                  color: Colors.secondary.main,
-                  opacity: 0.7,
-                  textAlign: 'center',
-                }}>
-                  No sign-up required • Limited access but full preview
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
-        </View>
-      </ScrollView>
-      <Toast />
-    </SafeAreaView>
+        </ScrollView>
+        <Toast />
+      </SafeAreaView>
     </LinearGradient>
   );
 };
